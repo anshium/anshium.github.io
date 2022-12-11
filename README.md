@@ -1,3 +1,0 @@
-# anshium.github.io
-
-Hi!
