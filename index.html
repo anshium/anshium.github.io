@@ -3,22 +3,93 @@
 <html>
 <head>
 	<title>My Github Site!</title>
-	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&family=Shadows+Into+Light+Two&family=Unna&display=swap" rel="stylesheet">
+
 	<style>
+		body{
+			font-size: 150%;
+			background-color: rgb(255, 252, 242); /*Floral Colour*/
+		}
 		.title{
-			text-color: rgb(100, 200, 100);
-			font-family: cursive;
+			font-family: 'Comfortaa', cursive;
+			text-align: center;
+			color: rgb(31,186,96); /*Emerald*/
+		}
+		.navbar{
+			font-family: 'Shadows Into Light Two', cursive;
+			display: block;		
+			text-align: center;
+			margin-top: 1%;
+		}
+		.navbar a{
+			background-color: rgb(255,166,43);
+			color: rgb(255, 255, 255);
+			padding: 5px;
+			border: 1px solid black;
+			text-decoration: none; 
+		}
+		#funny-home-text{
+			font-family: 'Comfortaa', cursive;
+			text-align: center;
+			color: rgb(184,205,50)
+		}
+		#PnF{
+			font-family: 'Comfortaa', cursive;
+			text-align: center;
+			color: rgb(254,205,50);
+			font-size: 30px;
+		}
+		#Phineas{
+			font-family: 'Comfortaa', cursive;
+			text-align: center;
+			color: rgb(238,118,0); /*Orange*/
+			font-size: 30px;
+		}
+		#Ferb{
+			font-family: 'Comfortaa', cursive;
+			text-align: center;
+			color: rgb(31,186,96);
+			font-size: 30px;
+		}
+		#website-under-construction{
+			background-color: transparent;
+		} 
+		#website-under-construction hr{
+			color: white;
+		}
+		#website-under-construction h2{
+			color: orange;
+			font-size: 20px;
+			font-family: 'Comfortaa', cursive;
+			text-align: center;
 		}
 	</style>
 </head>
 
 <body>
-	<h1 class = "title">Hey there!</h1>
-	<p>Watcha Doin'
-	<br>
-		Watch Out! Website Under Construction...
-	</p>
 	
+	<div class = "navbar">
+		<a href = "">Home</a>
+		<a href = "">The Magical Blog</a>
+		<a href = "">About Me</a>
+		<a href = "">Interesting Stories</a>
+		<a href = "">Cool Stuff</a>
+		<a href = "">Some Secrets (Shh)</a>
+	</div>
+	
+	<h1 class = "title">I am Ansh C.</h1>
+	
+	<p id="funny-home-text">I like nachos, apples, oranges, the universe, potatoes, green leafy vegetables, oranges, colours, my website, clocks, microscopes, refrigerators, telescopes, steel bottles, fragrant notebooks, flying pigs, cats, dogs, ladybugs, cherries, Phineas and Ferb, bittergourd (not really), robotics, math, elephants, C.</p>
+	
+	<h2 id = "PnF">I am a huge <span id = "Phineas">Phineas</span> and <span id = "Ferb">Ferb</span> Fan!</h2>
+	
+	<div id = "website-under-construction">
+	<hr>
+	<h2>Website is still under construction</h2>
+	<hr>
+	</div>
 </body>
 </html>
 	
