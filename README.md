@@ -1,7 +1,7 @@
 # My Personal Website
 This is my own personal website.
 
-I am writing this as GitHub asked me to do so :D
+I am making this readme because GitHub asked me to do so :D
 
 The website has many tabs and a lot of text
 
