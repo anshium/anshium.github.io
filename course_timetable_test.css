@@ -1,0 +1,58 @@
+body{
+	font-size: 150%;
+	background-color: rgb(255, 255, 255); /*Floral Colour*/	
+	}
+.navbar{
+	font-family: 'Shadows Into Light Two', cursive;
+	display: block;		
+	text-align: center;
+	margin-top: 1%;
+	/*background: url("https://images.creativemarket.com/0.1.0/ps/1570278/2417/1608/m1/fpnw/wm1/preview-01-.jpg?1471583801&s=5d51c2a276fa9b425b13bd7fba07f894") 10px;*/
+}
+.navbar a{
+	background-color: rgb(255,166,43);
+	color: rgb(255, 255, 255);
+	padding: 5px;
+	border: 1px solid black;
+	text-decoration: none; 
+}
+
+.selection-form{
+	border: 3px solid black;
+	border-radius: 25px;
+	height: 42vh;
+	float: right;
+	margin-top: 4%;
+	margin-right: 2%;
+	padding: 2% 2% 2% 2%;
+}
+
+.selection-form label{
+	font-size: 80%;
+}
+
+.schedule{
+	border: 3px solid rgb(0, 0, 0);
+	border-radius: 25px;
+	/* height: 50vh; */
+	margin-top: 5%;
+	margin-left: 3%;
+	margin-right: 20%;
+}
+
+table{
+	border: 1.5px solid black;
+	text-align: center;
+	border-radius: 25px;
+}
+
+table th{
+	border: 1.5px solid;
+	padding: 2px 2px 2px 2px;
+}
+
+table td{
+	border: 1.5px solid;
+	border-radius: 20px;
+	padding: 2px 2px 2px 2px;
+}
