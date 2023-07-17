@@ -1,91 +1,111 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<link rel="stylesheet" type="text/css" href="course_timetable.css" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&family=Shadows+Into+Light+Two&family=Unna&display=swap" rel="stylesheet">
-	<title>Course Timetable</title>
-</head>
-<body>
-	<div class = "navbar">
-	<hr>
-		<a href = "https://anshium.github.io">Home</a>
-		<a href = "">The Magical Blog</a>
-		<a href = "">About Me</a>
-		<a href = "InterestingStories.html">Interesting Stories</a>
-		<a href = "">Cool Stuff</a>
-		<a href = "">Some Secrets (Shh)</a>
-		<a href = "">IIIT-H</a>
-	<hr>
-	</div>
-	
-	<!--Free slots are intentionally kept completely blank so as to improve creative utilisation of that space-->
-	<table>
-	<tr><th>Day/Time</th>
-		<th>8:30 - 9:55</th>
-		<th>10:05 - 11:30</th>
-		<th>11:40 - 13:05</th>
-		<th>13:00 - 14:00</th>
-		<th>14:00 - 15:00</th>
-		<th>15:00 - 16:00</th>
-		<th>16:00 - 17:00</th>
-	</tr>
-	<!--Monday-->
-	<tr><td>Monday</td>
-		<td>Linear Algebra (SH1)</td>
-		<td>Introduction to IoT (H105)</td>
-		<td>Data Structures and Algorithms (H205)</td>
-		<td rowspan = "6">Lunch</td>
-		<td>LA (H101)</td>
-		<td colspan = "2"></td>
-	</tr>
-	
-	<!--Tuesday-->
-	<tr><td>Tuesday</td>
-		<td>Introduction to Software Systems (H1)(H-205)</td>
-		<td> - </td>
-		<td>Computer System Organisation (H105)</td>
-		<!--td>Lunch</td-->
-		<td colspan = "2">ISS Lab (CR1) (14:00-15:30)</td>
-		<td>DSA Tutorial (SH1)</td>
-	</tr>
-	
-	<!--Wednesday-->
-	<tr><td>Wednesday</td>
-		<td>Arts-2 (H1)</td>
-		<td colspan = "2">Data Structures and Algorithms Lab (TL-1, TL-2, TL-3, B6-309)</td>
-		<!--td>Lunch</td-->
-		<td colspan = "3">Intro to IoT Lab (N104, N125) (14:00 to 17:00)</td>
-	</tr>
-	
-	<!--Thursday-->
-	<tr><td>Thursday</td>
-		<td>Linear Algebra (SH1)</td>
-		<td>Introduction to IoT (H105)</td>
-		<td>Data Structures and Algorithms (H205)</td>
-		<!--td>Lunch</td-->
-		<td colspan = "3"></td>
-	</tr>
-	
-	<!--Friday-->
-	<tr><td>Friday</td>
-		<td>Intro to ISS Lab (H205)</td>
-		<td></td>
-		<td>Computer System Organisation (H105)</td>
-		<!--td>Lunch</td-->
-		<td colspan = "3"></td>
-	</tr>
-	
-	<!--Saturday-->
-	<tr><td>Saturday</td>
-		<td>Arts-2 (H1)</td>
-		<td colspan = "2"></td>
-		<!--td>Lunch</td-->
-		<td colspan = "3"></td>
-	</tr>
+	<head>
+		<link rel="stylesheet" type="text/css" href="course_timetable_test.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&family=Shadows+Into+Light+Two&family=Unna&display=swap" rel="stylesheet">
+		<title>
+			Course Timetable
+		</title>
+	</head>
+	<body>
+		<div class = "navbar">
+			<hr>
+				<a href = "https://anshium.github.io">Home</a>
+				<a href = "">The Magical Blog</a>
+				<a href = "">About Me</a>
+				<a href = "InterestingStories.html">Interesting Stories</a>
+				<a href = "">Cool Stuff</a>
+				<a href = "">Some Secrets (Shh)</a>
+				<a href = "">IIIT-H</a>
+			<hr>
+			</div>
 
-	</table>
-</body>
+			<!-- <div class = "selection-form">
+				<form>
+					<label for="branch-select">Choose your branch:</label>
+					<br>
+					<select name="branches" id="branch-select">
+						<option value="">Select</option>
+						<option value="CSD/CSE">CSD/CSE</option>
+						<option value="CLD">CLD</option>
+						<option value="CND">CND</option>
+						<option value="ECE/ECD">ECE/ECD</option>
+						<option value="IDK">0 CGPA</option>
+					</select>
 
+				</form>
+			</div> -->
+
+
+			<div class = "schedule" id = "CSX">
+				<table>
+					<tr><th>Day/Time</th>
+						<th>8:30 - 9:55</th>
+						<th>10:05 - 11:30</th>
+						<th>11:40 - 13:05</th>
+						<th>13:00 - 14:00</th>
+						<th>14:00 - 15:30</th>
+						<th>15:30 - 17:00</th>
+					</tr>
+					<!--Monday-->
+					<tr><td class = "day">Monday</td>
+						<td bgcolor="yellow" style="color:black">Automata Theory</td>
+						<td bgcolor="#ed991a">Operating Systems and Networks</td>
+						<td></td>
+						<td rowspan = "6" style="color: white; font-size: 120%;" bgcolor="#7f03fc">Lunch<br>🚀</td>
+						<td bgcolor="#a903fc">Embedded Systems Workshop (H2)</td>
+						<td colspan = "2"></td>
+					</tr>
+					
+					<!--Tuesday-->
+					<tr><td class = "day">Tuesday</td>
+						<td></td>
+						<td bgcolor="#1a92ed">Algorithm Analysis and Design</td>
+						<td bgcolor="#0acc34">Science 1</td>
+						<!--td>Lunch</td-->
+						<td colspan = "3"></td>
+					</tr>
+					
+					<!--Wednesday-->
+					<tr><td class = "day">Wednesday</td>
+						<td></td>
+						<td bgcolor="#1c0770">Probability and Statistics</td>
+						<td>Tutorials</td>
+						<!--td>Lunch</td-->
+						<td colspan = "3"></td>
+					</tr>
+					
+					<!--Thursday-->
+					<tr><td class = "day">Thursday</td>
+						<td bgcolor="yellow" style="color:black">Automata Theory (H1)</td>
+						<td bgcolor="#ed991a">Operating Systems and Networks</td>
+						<td></td>
+						<!--td>Lunch</td-->
+						<td bgcolor="#a903fc">Embedded Systems Workshop (H2)</td>
+						<td></td>
+					</tr>
+					
+					<!--Friday-->
+					<tr><td class = "day">Friday</td>
+						<td></td>
+						<td bgcolor="#1a92ed">Algorithm Analysis and Design</td>
+						<td bgcolor="#0acc34">Science 1</td>
+						<!--td>Lunch</td-->
+						<td colspan = "3"></td>
+					</tr>
+					
+					<!--Saturday-->
+					<tr><td class = "day">Saturday</td>
+						<td></td>
+						<td bgcolor="#1c0770">Probability and Statistics</td>
+						<td>Tutorials</td>
+						<!--td>Lunch</td-->
+						<td colspan = "3"></td>
+					</tr>
+				
+				</table>
+			</div>
+	</body>
 </html>
