@@ -1,7 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Cabin&family=Changa+One&family=Comfortaa:wght@500&family=Delicious+Handrawn&family=EB+Garamond&family=Indie+Flower&family=Lilita+One&family=Patua+One&family=Secular+One&family=Shadows+Into+Light+Two&family=Unna&family=Ysabeau+Infant:wght@300&display=swap');
 
+
+.navbar{
+	font-size: 120%;
+	font-family: 'Shadows Into Light Two', cursive;
+	display: block;		
+	text-align: center;
+	margin-top: 1%;
+	/*background: url("https://images.creativemarket.com/0.1.0/ps/1570278/2417/1608/m1/fpnw/wm1/preview-01-.jpg?1471583801&s=5d51c2a276fa9b425b13bd7fba07f894") 10px;*/
+}
+.navbar a{
+	background-color: rgb(255,166,43);
+	color: rgb(255, 255, 255);
+	padding: 5px;
+	border: 1px solid black;
+	text-decoration: none; 
+}
+
 #container{
 	margin-left: 20%;
+	margin-right: 20%;
 }
 
 .title{
