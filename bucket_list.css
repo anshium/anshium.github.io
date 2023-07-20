@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Cabin&family=Changa+One&family=Comfortaa:wght@500&family=Delicious+Handrawn&family=EB+Garamond&family=Indie+Flower&family=Lilita+One&family=Patua+One&family=Secular+One&family=Shadows+Into+Light+Two&family=Unna&family=Ysabeau+Infant:wght@300&display=swap');
+
+#container{
+	margin-left: 20%;
+}
+
+.title{
+	font-family: 'Indie Flower', cursive;
+	padding: 0 0 0 0;
+}
+
+.description{
+	font-size: 120%;
+	font-family: 'Ysabeau Infant', sans-serif;
+}
+
+.list{
+	font-size: 120%;
+	font-family: 'Ysabeau Infant', sans-serif;
+}
+
+.blue{
+	color: blue;
+}
+
+.red{
+	color: red;
+}
+
+.green{
+	color: green;
+}
+
+.greenyellow{
+	color: greenyellow;
+}
