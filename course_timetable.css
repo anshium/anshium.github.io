@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Cabin&family=Changa+One&family=Comfortaa:wght@500&family=Delicious+Handrawn&family=EB+Garamond&family=Lilita+One&family=Patua+One&family=Secular+One&family=Shadows+Into+Light+Two&family=Unna&display=swap');
 
 body{
-	font-size: 150%;
+	font-size: 120%;
 	background-color: rgb(255, 255, 255); /*Floral Colour*/	
 	}
 .navbar{
@@ -35,6 +35,7 @@ body{
 }
 
 .schedule{
+	font-size: 120%;
 	font-family: 'Lilita One', cursive;
 	border: 3px solid rgb(0, 0, 0);
 	border-radius: 5px;
@@ -65,4 +66,22 @@ table td{
 
 .day{
 	color: black;
+}
+
+.links{
+	margin-top: 2%;
+	margin-left: 3%;
+	font-size: 90%;
+	font-family: 'Lilita One', cursive;
+	color: orange;
+}
+
+.links a{
+	text-decoration: none;
+	color: "#1c0770";
+	font-family: 'Lilita One', cursive;
+}
+
+.links a:hover{
+	color: green;
 }
