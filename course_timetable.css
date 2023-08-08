@@ -85,3 +85,29 @@ table td{
 .links a:hover{
 	color: green;
 }
+
+.assignments{
+	margin-top: 2%;
+	margin-left: 3%;
+	font-size: 90%;
+	font-family: 'Lilita One', cursive;
+	color: orange;
+}
+
+.assignments a{
+	text-decoration: none;
+	color: "#1c0770";
+	font-family: 'Lilita One', cursive;
+}
+
+/* .assignments ul ul li a{
+	text-decoration: none;
+} */
+
+.assignments a:hover{
+	color: green;
+}
+
+.assignments li span{
+	color: green;
+}
