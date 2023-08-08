@@ -69,6 +69,8 @@ table td{
 }
 
 .links{
+	float: right;
+	margin-right: 5vw;
 	margin-top: 2%;
 	margin-left: 3%;
 	font-size: 90%;
