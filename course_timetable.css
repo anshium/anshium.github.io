@@ -69,7 +69,7 @@ table td{
 }
 
 .links{
-	float: right;
+	/* float: right; */
 	margin-right: 5vw;
 	margin-top: 2%;
 	margin-left: 3%;
