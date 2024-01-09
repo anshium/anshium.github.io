@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Cabin&family=Changa+One&family=Comfortaa:wght@500&family=Delicious+Handrawn&family=EB+Garamond&family=Indie+Flower&family=Lilita+One&family=Patua+One&family=Secular+One&family=Shadows+Into+Light+Two&family=Unna&family=Ysabeau+Infant:wght@300&display=swap');
+
+body{
+	background-color: rgb(255, 252, 242); /*Floral Colour*/
+	font-family: 'Comfortaa', cursive;
+}
+
+.navbar{
+	font-size: 120%;
+	font-family: 'Shadows Into Light Two', cursive;
+	display: block;		
+	text-align: center;
+	margin-top: 1%;
+	/*background: url("https://images.creativemarket.com/0.1.0/ps/1570278/2417/1608/m1/fpnw/wm1/preview-01-.jpg?1471583801&s=5d51c2a276fa9b425b13bd7fba07f894") 10px;*/
+}
+.navbar a{
+	background-color: rgb(255,166,43);
+	color: rgb(255, 255, 255);
+	padding: 5px;
+	border: 1px solid black;
+	text-decoration: none; 
+}
+#tooltip {
+	display: none;
+	position: absolute;
+	padding: 10px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	/* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+#side-text{
+	border: 1px solid black;
+	/* margin-top: 10%; */
+	height: 80vh;
+	width: 50vh;
+	margin-left: 0px;
+	padding: 1% 1% 1% 1%;
+	overflow:scroll;
+	margin-right: 0px;
+}
+
+#world_map{
+	background-color: #29C5F6;
+}
+
+#world_map path{
+	fill: white;
+	stroke: black;
+	stroke-width: 0.5px;
+}
+
+#world_map_container{
+	/* display: flex; */
+	margin-left: 0px;
+	padding-right: 5vh;
+	float: right;
+	/* align-items: center;
+	justify-content: center; */
+	height: 100vh;
+	margin: 0;
+}
+
+#side-text #side-text-header{
+	color: orange;
+}
+
+#side-text .Countries{
+	color: black;
+}

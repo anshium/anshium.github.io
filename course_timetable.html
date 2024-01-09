@@ -38,7 +38,23 @@
 
 				</form>
 			</div> -->
+			
+			<h2>Choose your courses:</h2>
 
+			<label><input type="checkbox" class="option" value="Option 1"> Computer Graphics</label>
+			<label><input type="checkbox" class="option" value="Option 2"> Option 2</label>
+			<label><input type="checkbox" class="option" value="Option 3"> Option 3</label>
+			<label><input type="checkbox" class="option" value="Option 4"> Option 4</label>
+			<label><input type="checkbox" class="option" value="Option 5"> Option 5</label>
+			<label><input type="checkbox" class="option" value="Option 6"> Option 6</label>
+			<label><input type="checkbox" class="option" value="Option 7"> Option 7</label>
+			<label><input type="checkbox" class="option" value="Option 8"> Option 8</label>
+			<label><input type="checkbox" class="option" value="Option 9"> Option 9</label>
+			<label><input type="checkbox" class="option" value="Option 10"> Option 10</label>
+			<label><input type="checkbox" class="option" value="Option 11"> Option 11</label>
+			<label><input type="checkbox" class="option" value="Option 12"> Option 12</label>
+
+			<div id="dumbo"></div>
 
 			<div class = "schedule" id = "CSX">
 				<table>
@@ -51,62 +67,67 @@
 						<th>15:30 - 17:00</th>
 					</tr>
 					<!--Monday-->
-					<tr><td class = "day">Monday</td>
-						<td bgcolor="yellow" style="color:black">Automata Theory</td>
-						<td bgcolor="#ed991a">Operating Systems and Networks</td>
-						<td></td>
+					<tr><td class = "day" id = "Monday">Monday</td>
+						<td id = "MN1"></td>
+						<td id = "MN2"></td>
+						<td id = "MN3"></td>
 						<td rowspan = "6" style="color: white; font-size: 120%;" bgcolor="#7f03fc">Lunch<br>🚀</td>
 						<!-- <td bgcolor="#a903fc"></td> -->
-						<td colspan = "3"></td>
+						<td id = "MN4" colspan = "1"></td>
+						<td id = "MN5" colspan = "1"></td>
 					</tr>
 					
 					<!--Tuesday-->
-					<tr><td class = "day">Tuesday</td>
-						<td></td>
-						<td bgcolor="#1a92ed">Algorithm Analysis and Design</td>
-						<td bgcolor="#0acc34">Science 1</td>
+					<tr><td class = "day" id = "Tuesday">Tuesday</td>
+						<td id = "TU1"></td>
+						<td id = "TU2"></td>
+						<td id = "TU3"></td>
 						<!--td>Lunch</td-->
-						<td colspan = "3" bgcolor="#a903fc">Embedded Systems Workshop (Full Sem :P)</td>
+						<td id = "TU4" colspan = "1"></td>
+						<td id = "TU5" colspan = "1"></td>
 					</tr>
 					
 					<!--Wednesday-->
-					<tr><td class = "day">Wednesday</td>
-						<td bgcolor="#ADFF2F" style="color:black">Automata Theory (Tutorial) H-205</td>
-						<td bgcolor="#1c0770">Probability and Statistics</td>
-						<td bgcolor = #0a8ec2>Probability and Statistics + OSN (Tutorial) <br> PnS: H-205, OSN: H-105 (-13:40)</td>
+					<tr><td class = "day" id = "Wednesday">Wednesday</td>
+						<td id = "WD1"></td>
+						<td id = "WD2"></td>
+						<td id = "WD3"></td>
 						<!-- <td bgcolor = #0a8ec2>Probability and Statistics + OSN (Tutorial) <br>Confirmed: 09-08-2023 <br> PnS: H-205, OSN: H-105 (-13:40)</td> -->
 						<!--td>Lunch</td-->
-						<td colspan = "3"></td>
+						<td id = "WD4" colspan = "1"></td>
+						<td id = "WD5" colspan = "1"></td>
 					</tr>
 					
 					<!--Thursday-->
-					<tr><td class = "day">Thursday</td>
-						<td bgcolor="yellow" style="color:black">Automata Theory (H1) <br> H-205</td>
-						<td bgcolor="#ed991a">Operating Systems and Networks</td>
-						<td></td>
+					<tr><td class = "day" id = "Thursday">Thursday</td>
+						<td id = "TH1"></td>
+						<td id = "TH2"></td>
+						<td id = "TH3"></td>
 						<!--td>Lunch</td-->
 						<!-- <td bgcolor="#a903fc">Embedded Systems Workshop (H2)</td> -->
-						<td colspan="3"></td>
+						<td id = "TH4" colspan = "1"></td>
+						<td id = "TH5" colspan = "1"></td>
 					</tr>
 					
 					<!--Friday-->
-					<tr><td class = "day">Friday</td>
+					<tr><td class = "day" id = "Friday">Friday</td>
 						<!-- <td bgcolor=#f0b356>Operating Systems and <br> Networks (Tutorial)</td> -->
-						<td></td>
-						<td bgcolor="#1a92ed">Algorithm Analysis and Design</td>
-						<td bgcolor="#0acc34">Science 1</td>
+						<td id = "FR1"></td>
+						<td id = "FR2"></td>
+						<td id = "FR3"></td>
 						<!--td>Lunch</td-->
-						<td bgcolor="#88cc0a">Science 1 (Tutorial) H-105</td>
-						<td colspan = "2"></td>
+						<td id = "FR4" colspan = "1"></td>
+						<td id = "FR5" colspan = "1"></td>
 					</tr>
 					
 					<!--Saturday-->
-					<tr><td class = "day">Saturday</td>
-						<td></td>
-						<td bgcolor="#1c0770">Probability and Statistics</td>
-						<td bgcolor="#1ab5ed">Algorithm Analysis and <br>Design (Tutorial) (-13:40) <br> 3rd floor Himalaya.</td>
+					<tr><td class = "day" id = "Saturday">Saturday</td>
+						<td id = "ST1"></td>
+						<td id = "ST2"></td>
+						<td id = "ST3"></td>
 						<!--td>Lunch</td-->
-						<td colspan = "3"></td>
+						<td id = "ST4" colspan = "1"></td>
+						<td id = "ST5" colspan = "1"></td>
 					</tr>
 				
 				</table>
@@ -114,7 +135,7 @@
 
 			<div class = "assignments">
 				<span style = "color: red;">
-				Assignment date updates and notices have been suspended indefinitely since the website has entered stalling period.
+				Below assignments and links haven't been updated since a while. Cat got your tongue?
 				</span><br><br>
 				Assignments: <ul>
 					Automata Theory:<ul>
