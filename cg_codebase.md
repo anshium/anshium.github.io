@@ -7,7 +7,7 @@ In this case, it is in the  `render.cpp` file.
 ## Part 1: Taking a brief overview
 
 Here is the main function:
-```
+```cpp
 int main(int argc, char **argv)
 {
     if (argc != 3) {
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 ### Part 1.1: Overview of the thingy called Scene
 
 We first see the line `Scene scene(argv[1]);`. Here `Scene` is a struct as follows:
-```
+```cpp
 struct Scene {
     std::vector<Surface> surfaces;
     Camera camera;
@@ -58,7 +58,7 @@ After this we see a bunch of constructors.
 <b>Note: On a careful observation you might note that the last 2 constructors are one and the same thing. </b> 
 
 Now let's understand how this scene constructor works.
-```
+```cpp
 1 Scene::Scene(std::string pathToJson)
 2 {
 3    std::string sceneDirectory;
@@ -107,7 +107,7 @@ Things are simple:
 - rayTracer is the name of this particular Integrator instance.
 - We are passing a `scene` argument. This means there must be a constructor function somewhere.
 
-```
+```cpp
 struct Integrator {
     Integrator(Scene& scene);
 
@@ -153,7 +153,7 @@ There was a time up in this explanation when we mentioned that the `parse` funct
 We'll look at what it means to parse the values in the Camera struct and what is happening there along with the several terminologies.
 
 Here's the code for Cameras: (in `scene.cpp`)
-```
+```cpp
 // Cameras 
     try {
         auto cam = sceneConfig["camera"];
@@ -173,7 +173,7 @@ Here's the code for Cameras: (in `scene.cpp`)
 ```
 
 More specifically this:
-```
+```cpp
 auto cam = sceneConfig["camera"];
 
 this->camera = Camera(
@@ -189,7 +189,7 @@ First let's look at `cam`.
 Cam is the "camera" part of the sceneConfig.
 
 Here is a sample sceneConfig:
-```
+```cpp
 {
     "camera": {
         "fieldOfView": 30,
@@ -217,7 +217,7 @@ AND NOW!!! THE CAMERA FUNCTION.
 Not much of a big deal. It is more of terminogolies and simple math here:
 
 See this and get afraid:
-```
+```cpp
 Camera::Camera(Vector3f from, Vector3f to, Vector3f up, float fieldOfView, Vector2i imageResolution)
     : from(from),
     to(to),
@@ -251,7 +251,7 @@ Camera::Camera(Vector3f from, Vector3f to, Vector3f up, float fieldOfView, Vecto
 ```
 
 First we have
-```
+```cpp
 Camera::Camera(Vector3f from, Vector3f to, Vector3f up, float fieldOfView, Vector2i imageResolution)
     : from(from),
     to(to),
@@ -262,7 +262,7 @@ Camera::Camera(Vector3f from, Vector3f to, Vector3f up, float fieldOfView, Vecto
 
 The simplest explaination to this piece of code is:
 This is the Camera struct
-```
+```cpp
 struct Camera {
     Vector3f from, to, up;
     float fieldOfView;
@@ -297,7 +297,7 @@ In computer graphics and rendering, image resolution refers to the number of pix
 So it makes sense to have the imageResolution as a Vector2i having 2 things to specify in integer format. <i>I honestly didn't like this. They should have made a separate typedef and called it the resHolder. I am often in favour of having multiple names of the same thing.</i>
 
 These are the mathematical conversions. They should be clear if you think about them for a while. You can even think about them while brushing, bathing, etc instead of have those bad and worrying thoughts.
-```
+```cpp
 // Determine viewport dimensions in 3D
 float fovRadians = fieldOfView * M_PI / 180.f;
 float h = std::tan(fovRadians / 2.f);
@@ -306,7 +306,7 @@ float viewportWidth = viewportHeight * this->aspect;
 ```
 
 This is the simple calculation for the basis vectors
-```
+```cpp
 // Calculate basis vectors of the camera for the given transform
 this->w = Normalize(this->from - this->to);
 this->u = Normalize(Cross(up, this->w));
@@ -315,7 +315,7 @@ this->v = Normalize(Cross(this->w, this->u));
 
 Now comes an interesting part. Having a biscuit, if you like.
 
-```
+```cpp
 // Pixel delta vectors
 Vector3f viewportU = viewportWidth * this->u;
 Vector3f viewportV = viewportHeight * (-this->v);
@@ -344,7 +344,7 @@ And thus, we have successful fit the `Camera` information inside the `Scene`.
 
 ### Part 3.1: Introduction
 Here is the code for surface parsing:
-```
+```cpp
 auto surfacePaths = sceneConfig["surface"];
 
 uint32_t surfaceIdx = 0;
@@ -361,7 +361,7 @@ for (std::string surfacePath : surfacePaths) {
 If you came here after looking at Part 2, you may have no problems with the first line.
 
 Again here is a sample sceneConfig:
-```
+```cpp
 {
     "camera": {
         "fieldOfView": 30,
@@ -411,7 +411,7 @@ For now, we'll ignore the renderTime part.
 We had previously made a struct `ratTracer` of the type `Integrator` and have initialised it with the `scene`. The scene's components were populated using the steps mentioned previously.
 
 Now for the most part, here is the render function:
-```
+```cpp
 for (int x = 0; x < this->scene.imageResolution.x; x++) {
         for (int y = 0; y < this->scene.imageResolution.y; y++) {
             Ray cameraRay = this->scene.camera.generateRay(x, y);
@@ -442,7 +442,7 @@ Of course, they are ideally only two cases here: it would intersect or it would 
 
 This is the `generateRay` function:
 
-```
+```cpp
 Ray Camera::generateRay(int x, int y)
 {
     Vector3f pixelCenter = this->upperLeft + 0.5f * (this->pixelDeltaU + this->pixelDeltaV);
@@ -478,7 +478,7 @@ Here is what `Billiman` has to tell you. <i>(Imagine billiman as a cat with a ca
 
 `Billiman`: It is a struct:
 
-```
+```cpp
 struct Interaction {
     Vector3f p, n;
     float t = 1e30f;
@@ -501,7 +501,7 @@ Then there is information if the intersection did not happened using, `didInters
 
 `Billiman` : Here it is. It's only you for which I have taken this code out of my magical powers.
 
-```
+```cpp
 Interaction Scene::rayIntersect(Ray& ray)
 {
     Interaction siFinal;
@@ -526,7 +526,7 @@ Interaction Scene::rayIntersect(Ray& ray)
 
 The surface.rayIntersect(ray) is as follows:
 
-```
+```cpp
 Interaction Surface::rayIntersect(Ray ray)
 {
     Interaction siFinal;
@@ -558,7 +558,7 @@ Interaction Surface::rayIntersect(Ray ray)
 \* (This applies only if you are in IIIT)
 
 What is this:
-```
+```cpp
 if (si.t <= ray.t) {
     siFinal = si;
     ray.t = si.t;
