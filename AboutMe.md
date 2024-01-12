@@ -8,7 +8,7 @@ Fun facts about me:
 - I have learned 5 Human Languages and understand a lot more. But currently proficient in speaking two and familiar with only one.
 - I like nature, mountains and off-road destinations a lot and always look out to visiting them.
 - I have eaten Maggie at 13,050 ft.
-
+- My mothertongue is usually written from right to left. It is not Arabic, Persian or Urdu.
 - I have been banned by LinkedIn twice.
 - I have been banned by Instagram once.
 
