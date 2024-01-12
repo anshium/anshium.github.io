@@ -113,3 +113,15 @@ table td{
 .assignments li span{
 	color: green;
 }
+
+#choose_courses{
+	color: orange;
+	font-family: 'Lilita One', cursive;
+	margin-left: 3%;
+}
+
+#course_list{
+	
+	font-family: 'Lilita One', cursive;
+	margin-left: 3%;
+}

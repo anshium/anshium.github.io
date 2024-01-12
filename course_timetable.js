@@ -53,6 +53,14 @@ let timetable_layers = {
 		"Friday" : ["", "", "", "", ""],
 		"Saturday" : ["Computer Graphics (H-103)", "", "", "", ""],
 	},
+	information_security : {
+		"Monday" : ["", "", "", "", "Informaton Security (H-103)"], 
+		"Tuesday" : ["", "", "", "", ""],
+		"Wednesday" : ["", "", "", "", ""],
+		"Thursday" : ["", "", "", "", "Informaton Security (H-103)"],
+		"Friday" : ["", "", "", "", ""],
+		"Saturday" : ["", "", "", "", ""],
+	},
 	topping : {
 		"Monday" : ["", "", "", "", ""], 
 		"Tuesday" : ["", "", "", "", ""],
@@ -64,8 +72,9 @@ let timetable_layers = {
 }
 
 let timetable_colors = {
-	base : ["black", "yellowgreen"],
+	base : ["black", "#fcba03"],
 	computer_graphics : ["white", "#1083e8"],
+	information_security : ["white", "#0dd137"],
 	topping : ["white", "white"]
 };
 
