@@ -1,6 +1,6 @@
 var NUM_SLOTS = 5;
 
-timetable_layers = {
+let timetable_layers = {
 	base : {
 		"Monday" : [
 			"", 
@@ -63,13 +63,13 @@ timetable_layers = {
 	},
 }
 
-timetable_colors = {
+let timetable_colors = {
 	base : ["black", "yellowgreen"],
 	computer_graphics : ["white", "#1083e8"],
 	topping : ["white", "white"]
 };
 
-id_mappings = {
+let id_mappings = {
 	"Monday" : ["MN1", "MN2", "MN3", "MN4", "MN5"],
 	"Tuesday" : ["TU1", "TU2", "TU3", "TU4", "TU5"],
 	"Wednesday" : ["WD1", "WD2", "WD3", "WD4", "WD5"],
@@ -98,7 +98,7 @@ function updateTimetable(){
 
 updateTimetable();
 
-selected_layers = timetable_layers["base"];
+let selected_layers = timetable_layers["base"];
 
 // Get all checkbox elements with the class 'option'
 const checkboxes = document.querySelectorAll('.option');
