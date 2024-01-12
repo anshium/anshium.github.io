@@ -102,6 +102,8 @@ Now how there surfaces are created and what is the `Vector2i imageResolution` an
 Now our focus is on this line of code:
 `Integrator rayTracer(scene);`
 
+This is the next line of the main function.
+
 Things are simple:
 - `Integrator` is a struct.
 - rayTracer is the name of this particular Integrator instance.
@@ -122,9 +124,9 @@ Ah, there it is. `Integrator(Scene& scene);` is the constructor function.
 
 Here we make a few observations:
 - The struct also has a Scene struct inside it.
-- It also has a Texture struct inside it. The texture struct is named outputImage.
+- It also has a Texture struct inside it. The texture struct is named `outputImage`.
 
-There is also this cute little render() function which is very long. <i>So long that `long` had to be written twice. </i>
+There is also this cute little `render()` function which is very long. <i>So long that `long` had to be written twice. </i>
 
 <b> What does the Integrator function do? </b>
 
@@ -214,10 +216,10 @@ It is very clear that we are extracting information here. Apart from the informa
 
 AND NOW!!! THE CAMERA FUNCTION.
 
-Not much of a big deal. It is more of terminogolies and simple math here:
+Not much of a big deal. It is more of terminologies and simple math here:
 
 See this and get afraid:
-```cpp
+```**cpp**
 Camera::Camera(Vector3f from, Vector3f to, Vector3f up, float fieldOfView, Vector2i imageResolution)
     : from(from),
     to(to),
@@ -749,7 +751,7 @@ Here's an explanation to how the colors are being filled:
 
 # Part 5: Saving the image
 
-Now we are at the last part. We have covered everything that is required for you to understand the codebase. At least for the assignments. I don't think they would ask for changes in the save image part.
+Now we are at the last part. We have covered everything that is required for you to understand the codebase at least for the assignments. I don't think they would ask for changes in the save image part.
 
 For knowledge sake, let's learn this as well.
 
@@ -759,6 +761,24 @@ Nahi yaar mann nahi hai...
 
 # Part 6: Concluding Thoughts
 
-\<Fill this>
+Be happy!
 
 # Appendices
+
+## A1: The up vector 
+
+**(unconfirmed, need to validate with professor/TAs)**
+
+There has been quite of lot of confusion around this. The confusion is where is the up vector? Is it the vector that describes the vector coming out of the Camera's head? Or is with respect to the scene?
+
+If it is the latter, what do we even mean by an up vector with respect to the scene.
+
+We'll see what this up vector really is from a lot of perspectives. It is because of so many perspectives that this confusion comes up - several people answering the same question differently with a different answer.
+
+I remember vividly being told once or twice that the up vector is with respect to the camera. The code tells otherwise.
+
+The fact is that people use both notions.
+
+In particular, a vector named up **is not coming out of the head of the camera**. In fact, it is a different vector named **u** that is doing that job.
+
+Up appears to be some random vector over here whose purpose is to tell what is up for the scene. Then accordingly, a new "up" vector called `u` is calculated.
