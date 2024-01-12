@@ -45,7 +45,7 @@ struct Scene {
 };
 ```
 
-- First, this `struct Scene` has a vector of structs `Surface` names surfaces.
+- First, this `struct Scene` has a vector of structs `Surface` named surfaces.
 - Then a `struct Camera` named camera.
 - Then a 2D vector Vector2\<int> that has been renamed to Vector2i using `typedef Vector2<int> Vector2i;` and named imageResolution.
 
