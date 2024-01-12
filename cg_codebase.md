@@ -388,9 +388,26 @@ Umm, likely non C++ coders (even myself) might have some problems understanding 
 
 The surfacePath is first prefixed with the sceneDirectory to get the full path.
 
-## Part 3.2: createSurfaces
+### Part 3.2: createSurfaces
 
-createSurfaces just turns out to be a good 125 line code in itself. I'll make a video about it probably. It would take too much of a text to explain it here. Or I'll see what's best.
+createSurfaces turns out to be a good 125 lines of code.
+
+This code defines a function createSurfaces that reads an OBJ file (Wavefront .obj format, representing 3D geometry) using the tinyobj library and converts it into a custom data structure called Surface. The Surface structure represents a 3D surface, storing information such as vertices, normals, UV coordinates, and material properties.
+
+Here are the steps involved in doing so:
+- An OBJ file is parsed. This OBJ file contains the elements for the 3D model. See `scenes/cornell_box/scene.obj` to find the file. You'll get an idea about how things are there.
+- Shapes and Faces are iterated over.
+- Surface Data Structure is built
+  - For each face, Surface object is constructed, storing vertices, normals, UV coordinates, and material information.
+- Textures are loaded. The function loads diffuse and alpha textures from material definitions if they are available.
+
+<b>Diffuse Textures:</b>
+It is the base color of an object without any lighting applied
+
+<b>Alpha Textures:</b>
+"Alpha" is the name given to the value that controls opacity/transparency - It doesn't strictly have a colour as such - it's sometimes displayed as being a greyscale texture
+
+### Part 3.3 
 
 After this we have:
 
