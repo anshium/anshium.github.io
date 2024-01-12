@@ -98,7 +98,7 @@ function updateTimetable(){
 
 updateTimetable();
 
-selected_layers = [base];
+selected_layers = timetable_layers["base"];
 
 // Get all checkbox elements with the class 'option'
 const checkboxes = document.querySelectorAll('.option');

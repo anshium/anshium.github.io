@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 }
 ```
 
-### Part 1.1: Overview of the thingy called Scene
+### Part 1.1: Overview of what's called Scene
 
 We first see the line `Scene scene(argv[1]);`. Here `Scene` is a struct as follows:
 ```cpp
@@ -97,7 +97,7 @@ Notice `this->parse(---)`. Here `this` refers to the `Scene struct` that was the
 
 Now how there surfaces are created and what is the `Vector2i imageResolution` and more things, we will see later on in the following sections. ::Improve this line
 
-### Part 1.2: Overview of the thingy called Integrator
+### Part 1.2: Overview of what's called Integrator
 
 Now our focus is on this line of code:
 `Integrator rayTracer(scene);`
@@ -286,6 +286,8 @@ We have the Vector3f (alias of Vector3\<float>) that has the identifiers `from`,
 
 The `from` to `to` makes a vector that specifies where the camera is looking at. And the `up` is the up vector as discussed in class by Prof PJN.
 
+In the past, I had some problems understanding the up vector. Largely due to the different definitions it has. See the appendices for the explanation of this up vector.
+
 <b>Field of View </b> (chappa from internet)
 
 In the context of computer graphics and virtual cameras, the field of view (FOV) is an important parameter that defines the extent of the scene that is visible in the rendered image. It determines how much of the 3D world can be seen by the virtual camera and influences the perception of depth and perspective in the final rendered image.
@@ -313,7 +315,7 @@ this->u = Normalize(Cross(up, this->w));
 this->v = Normalize(Cross(this->w, this->u));
 ```
 
-Now comes an interesting part. Having a biscuit, if you like.
+Now comes an interesting part. Have a biscuit, if you like.
 
 ```cpp
 // Pixel delta vectors
@@ -329,6 +331,8 @@ this->pixelDeltaV = viewportV / float(imageResolution.y);
 Here's what they are:
 
 Pixel delta vectors represent the change in the camera's coordinate system for each pixel in the rendered image. In other words, they define how much the camera's coordinate system changes as you move from one pixel to the next in the image. These vectors are used to determine the direction in which rays are cast from the camera for each pixel.
+
+Think of them like this: we have an image that has a resolution and we have a viewport. Now we have to scale the image to the viewport. Doing this first asks for reducing to unit image resolution and then multiplying by the viewport dimensions.
 
 For there calculation, we see that they would definitely depend on the viewportWidth and viewportHeight and would be in the direction of the basis vectors `u` and `v` (why?)
 
@@ -400,7 +404,7 @@ This is how we increment the iterator: `surfaceIdx = surfaceIdx + surf.size();`
 
 ### Part 4.1: Introduction
 
-Ah, tis the part that most of us are exited about, like an electron. <i>I might soon release a form to rate my jokes.</i>
+Ah, tis the part that most of us are excited about, like an electron. <i>I might soon release a form to rate my jokes.</i>
 
 When we are done with initialising the integrator part, we call the render() function like this:
 
@@ -408,9 +412,9 @@ When we are done with initialising the integrator part, we call the render() fun
 
 For now, we'll ignore the renderTime part.
 
-We had previously made a struct `ratTracer` of the type `Integrator` and have initialised it with the `scene`. The scene's components were populated using the steps mentioned previously.
+We had previously made a struct `rayTracer` of the type `Integrator` and have initialised it with the `scene`. The scene's components were populated using the steps mentioned previously.
 
-Now for the most part, here is the render function:
+Now at the crux of it, here is the render function:
 ```cpp
 for (int x = 0; x < this->scene.imageResolution.x; x++) {
         for (int y = 0; y < this->scene.imageResolution.y; y++) {
@@ -427,11 +431,15 @@ for (int x = 0; x < this->scene.imageResolution.x; x++) {
 
 It goes as follows: (Important)
 
-For each pixel, generate a ray from that pixel. Which pixel are we talking about, you may ask. Well, it is the pixels we have in our camera.
+For each pixel, generate a ray from that pixel. Which pixel are we talking about, you may ask. Well, it is one of the pixels we have in our camera.
 
 How many pixels are there. Well this depends on the `image resolution` as it is very clear from the two `for loops`.
 
+Since `rayTracer` is an `Integrator`, `this.scene` refers to the `struct Scene` (capitalised) called `scene` (lowercase) inside the `Integrator struct`. You may want to see the `Integrator struct` again.
+
 Then we see if that ray intersects with the scene.
+
+Finally we would color the pixel accordingly.
 
 Of course, they are ideally only two cases here: it would intersect or it would not.
 
@@ -454,7 +462,7 @@ Ray Camera::generateRay(int x, int y)
 }
 ```
 
-The pixel center is calculated from the upperLeft point (remember it? Just scroll up to find out) and the pixelDeltaU/V. This is simply to calulate the offset of the pixelCenter based on the camera. I understand it. If you don't, let me know I'll write more here about it here (or even make a video).
+The pixel center is calculated from the upperLeft point (remember it? Just scroll up to find out) and the pixelDeltaU/V. This is simply to calulate the offset of the pixelCenter based on the camera. I understand it. If you don't, let me know I'll write more here about it here (or even make a video). For references, refer to the 3rd PPT for the course (in Spring '24).
 
 `Vector3f direction = Normalize(pixelCenter - this->from);`
 
@@ -486,12 +494,17 @@ struct Interaction {
 };
 ```
 
-There are two Vector3fs in here: p and n. p is position. n is normal.
-Position is where the interaction happened. n is the normal of the surface at that point of interaction.
+There are two Vector3fs (alias of Vector3\<float>) in here: p and n. 
+- p is position. 
+- n is normal.
 
-Honestly, even I don't know what `float t = 1e30f;` is.
+Position is where the interaction happened. 
 
-Then there is information if the intersection did not happened using, `didIntersect` which is by default initialised to false.
+n is the normal of the surface at that point of interaction.
+
+Notice a `t`. This  `t` is seemingly large and of type float. `(1e30)` means large and `f` for float.
+
+Then there is information if the intersection did not happen using, `didIntersect` which is by default initialised to false.
 
 `Dumbo (you)`: Why scene.rayIntersect(cameraRay)?
 
@@ -518,13 +531,19 @@ Interaction Scene::rayIntersect(Ray& ray)
 }
 ```
 
-- Here we have an Interaction siFinal. 
+To find if a ray intersected with the scene, we would have to find if it intersected with a surface. Isn't that obvious? Yes, it is.
+
+We'll go through all surfaces.
+
+In more technical words.
+- We have an Interaction `siFinal`. 
 - We go over all the surfaces we have.
-- For each surface, we have an Interaction si (surface interaction)
-- This Interaction si is computed using another function of the same name rayIntersect.
-- This checks the intersection of the ray with a particular scene and not just a surface in particular.
+- For each surface, we have an Interaction `si` (surface interaction)
+- This Interaction si is computed using another function of the same name `rayIntersect`. The functions can have same names as they belong to different structs.
 
 The surface.rayIntersect(ray) is as follows:
+
+(from surface.cpp)
 
 ```cpp
 Interaction Surface::rayIntersect(Ray ray)
@@ -553,18 +572,135 @@ Interaction Surface::rayIntersect(Ray ray)
 }
 ```
 
-`Even less Dumbo* (you)`:
+The indices are for the faces, as had been discussed in class (PPT 3). The crux is that we are identifying a face using indices. `this.indices` is a vector of `Vector3<int>`.
 
-\* (This applies only if you are in IIIT)
+When we have the face, we can get the vertices as described above.
 
-What is this:
+We can also find the normals. These three normals are the vertex normals. (Are they?).
+
+The final normal n is calculated using: `Vector3f n = Normalize(n1 + n2 + n3);`
+
+`Even less Dumbo* (you)`: Do I see another ray intersect function?
+
+`Billiman`: Yes, you do little boy/girl. And you may scene one more when we see this next function.
+
+<b>Pay attention</b>: Here we are in our rendering journey.
+```
+├── scene.rayIntersect
+│  ├── surface.rayIntersect
+│      └── surface.rayTriangleIntersect   <-We are here. Two more steps to go.
+│           └── surface.rayPlaneIntersect
+```
+
+Now we come to the `rayTriangleIntersect(ray, p1, p2, p3, n)`
+
+This is its code:
+```cpp
+Interaction Surface::rayTriangleIntersect(Ray ray, Vector3f v1, Vector3f v2, Vector3f v3, Vector3f n)
+{
+    Interaction si = this->rayPlaneIntersect(ray, v1, n);
+
+    if (si.didIntersect) {
+        bool edge1 = false, edge2 = false, edge3 = false;
+
+        // Check edge 1
+        {
+            Vector3f nIp = Cross((si.p - v1), (v3 - v1));
+            Vector3f nTri = Cross((v2 - v1), (v3 - v1));
+            edge1 = Dot(nIp, nTri) > 0;
+        }
+
+        // Check edge 2
+        {
+            Vector3f nIp = Cross((si.p - v1), (v2 - v1));
+            Vector3f nTri = Cross((v3 - v1), (v2 - v1));
+            edge2 = Dot(nIp, nTri) > 0;
+        }
+
+        // Check edge 3
+        {
+            Vector3f nIp = Cross((si.p - v2), (v3 - v2));
+            Vector3f nTri = Cross((v1 - v2), (v3 - v2));
+            edge3 = Dot(nIp, nTri) > 0;
+        }
+
+        if (edge1 && edge2 && edge3) {
+            // Intersected triangle!
+            si.didIntersect = true;
+        }
+        else {
+            si.didIntersect = false;
+        }
+    }
+
+    return si;
+}
+```
+
+- First we will see if the ray intersected with a plane.
+- If it did, then we would move inside the if statement. Else, would simply return.
+- Remember `Iteraction` captures the following data:
+```cpp
+struct Interaction {
+    Vector3f p, n;
+    float t = 1e30f;
+    bool didIntersect = false;
+};
+```
+- Now the rest of the code is just the C++ way of telling what was told mathematically in the class. Procedures were told to calculate the interiority of intersection with a triangle.
+
+Also, as I know you may ask this: Tell me `this->rayPlaneIntersect(ray, v1, n);`
+
+```cpp
+Interaction Surface::rayPlaneIntersect(Ray ray, Vector3f p, Vector3f n)
+{
+    Interaction si;
+
+    float dDotN = Dot(ray.d, n);
+    if (dDotN != 0.f) {
+        float t = -Dot((ray.o - p), n) / dDotN;
+
+        if (t >= 0.f) {
+            si.didIntersect = true;
+            si.t = t;
+            si.n = n;
+            si.p = ray.o + ray.d * si.t;
+        }
+    }
+
+    return si;
+}
+```
+
+Here, we are finding using past principles, the intersection of a ray to the point.
+
+We have the equations:
+$$r(t) = \vec o + t \vec d $$
+$$and$$
+$$(\vec x - \vec p) \cdot \vec n = 0$$
+
+Solving for t, we get:
+$$t = - \frac{(\vec o - \vec p) \cdot \vec n}{\vec d \cdot \vec n}$$
+
+Explain this: 
+```cpp
+if (t >= 0.f) {
+    si.didIntersect = true;
+    si.t = t;
+    si.n = n;
+    si.p = ray.o + ray.d * si.t;
+}
+```
+
+`Even less Dumbo* (you)`: What is this:
+
 ```cpp
 if (si.t <= ray.t) {
     siFinal = si;
     ray.t = si.t;
 }
 ```
+\* (This applies only if you are in IIIT)
 
-`Billiman`: Here we see the first use of the large value `t` we had in the `struct Interaction`. Get the flashbacks:
-`float t = 1e30f;`
+`Billiman`: We are picking up the smallest value of t that we get after the intersection. It is this value of that would be seen first. (Need more explanation?)
 
