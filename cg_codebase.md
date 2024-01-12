@@ -704,3 +704,40 @@ if (si.t <= ray.t) {
 
 `Billiman`: We are picking up the smallest value of t that we get after the intersection. It is this value of that would be seen first. (Need more explanation?)
 
+`No longer Dumbo (you)`: No, thank you. Can you please explain me the coloring of the code part.
+
+`Billiman`: Sure, after all a billi should be telling it. <i>I had a billi long time back.</i>
+
+Here is the code:
+```cpp
+if (si.didIntersect)
+    this->outputImage.writePixelColor(0.5f * (si.n + Vector3f(1.f, 1.f, 1.f)), x, y);
+else
+    this->outputImage.writePixelColor(Vector3f(0.f, 0.f, 0.f), x, y);
+```
+
+Simply stated,
+
+if an intersection happens, fill it with a color.
+
+If not, don't fill it with a color.
+
+Here's an explanation to how the colors are being filled:
+
+\<put explanation here>
+
+# Part 5: Saving the image
+
+Now we are at the last part. We have covered everything that is required for you to understand the codebase. At least for the assignments. I don't think they would ask for changes in the save image part.
+
+For knowledge sake, let's learn this as well.
+
+Nahi yaar mann nahi hai...
+
+ان کي ڇڏيو
+
+# Part 6: Concluding Thoughts
+
+\<Fill this>
+
+# Appendices
