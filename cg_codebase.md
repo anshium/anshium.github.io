@@ -676,15 +676,19 @@ Here, we are finding using past principles, the intersection of a ray to the poi
 
 We have the equations:
 
-$$r(t) = \vec o + t \vec d $$
+```math
+r(t) = \vec o + t \vec d
+``````
+```and```
 
-$$and$$
-
-$$(\vec x - \vec p) \cdot \vec n = 0$$
-
+```math
+(\vec x - \vec p) \cdot \vec n = 0
+```
 Solving for t, we get:
 
-$$t = - \frac{(\vec o - \vec p) \cdot \vec n}{\vec d \cdot \vec n}$$
+```math
+t = - \frac{(\vec o - \vec p) \cdot \vec n}{\vec d \cdot \vec n}
+```
 
 Explain this: 
 ```cpp
