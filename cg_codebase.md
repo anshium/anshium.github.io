@@ -782,3 +782,5 @@ The fact is that people use both notions.
 In particular, a vector named up **is not coming out of the head of the camera**. In fact, it is a different vector named **u** that is doing that job.
 
 Up appears to be some random vector over here whose purpose is to tell what is up for the scene. Then accordingly, a new "up" vector called `u` is calculated.
+
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fanshium.github.io%2Fcg_codebase.html&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
