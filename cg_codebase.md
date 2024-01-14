@@ -769,7 +769,7 @@ Be happy!
 
 **(unconfirmed, need to validate with professor/TAs)**
 
-There has been quite of lot of confusion around this. The confusion is where is the up vector? Is it the vector that describes the vector coming out of the Camera's head? Or is with respect to the scene?
+There has been quite a lot of confusion around this. The confusion is where is the up vector? Is it the vector that describes the vector coming out of the Camera's head? Or is with respect to the scene?
 
 If it is the latter, what do we even mean by an up vector with respect to the scene.
 
@@ -779,7 +779,7 @@ I remember vividly being told once or twice that the up vector is with respect t
 
 The fact is that people use both notions.
 
-In particular, a vector named up **is not coming out of the head of the camera**. In fact, it is a different vector named **u** that is doing that job.
+In particular, a vector named up **is not coming out of the head of the camera** in this codebase. In fact, it is a different vector named **u** that is doing that job.
 
 Up appears to be some random vector over here whose purpose is to tell what is up for the scene. Then accordingly, a new "up" vector called `u` is calculated.
 
