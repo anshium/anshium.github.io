@@ -95,7 +95,7 @@ The `parse()`` function takes the sceneConfig and populates the scene struct's c
 
 Notice `this->parse(---)`. Here `this` refers to the `Scene struct` that was the first line we saw in the `main` function.
 
-Now how there surfaces are created and what is the `Vector2i imageResolution` and more things, we will see later on in the following sections. ::Improve this line
+Now how the surfaces are created and what is the `Vector2i imageResolution` and more things, we will see later on in the following sections. ::Improve this line
 
 ### Part 1.2: Overview of what's called Integrator
 
