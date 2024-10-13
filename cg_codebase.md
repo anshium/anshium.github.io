@@ -771,7 +771,7 @@ Be happy!
 
 There has been quite a lot of confusion around this. The confusion is where is the up vector? Is it the vector that describes the vector coming out of the Camera's head? Or is with respect to the scene?
 
-If it is the latter, what do we even mean by an up vector with respect to the scene.
+If it is the latter, what do we even mean by an up vector with respect to the scene?
 
 We'll see what this up vector really is from a lot of perspectives. It is because of so many perspectives that this confusion comes up - several people answering the same question differently with a different answer.
 
