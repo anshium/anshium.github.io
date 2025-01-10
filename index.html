@@ -67,6 +67,12 @@
 			font-family: 'Comfortaa', cursive;
 			text-align: center;
 		}
+		#website-under-construction h4{
+			color: rgb(255, 119, 0);
+			font-size: 15px;
+			font-family: 'Comfortaa', cursive;
+			/* text-align: center; */
+		}
 		#blue{
 			color: rgb(100, 100, 200);
 		}
@@ -75,6 +81,38 @@
 		}
 		#pink{
 			color: rgb(255, 100, 200);
+		}
+
+		#note-content {
+			display: none;
+		}
+
+		#note-button:hover + #note-content {
+			display: inline;
+			animation: fadeIn 0.3s ease-in-out;
+		}
+
+		#note-button {
+			cursor: pointer;
+			color: rgb(0, 68, 255);
+			border: none;
+			padding: 5px 10px;
+			border-radius: 5px;
+			font-size: 14px;
+			transition: background-color 0.3s;
+		}
+
+		#note-button:hover {
+			background-color: #b6b6b6;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
 		}
 	</style>
 </head>
@@ -100,10 +138,20 @@
 	
 	<h2 id = "PnF">I am a huge <span id = "Phineas">Phineas</span> and <span id = "Ferb">Ferb</span> Fan!</h2>
 	
-	<div id = "website-under-construction">
-	<hr>
-	<h2>Website is under construction</h2>
-	<hr>
+	<div id="website-under-construction">
+		<hr>
+		<h2>Website is under construction - and will remain for a while</h2>
+		<h4>
+			<button id="note-button">Note:</button>
+			<span id="note-content">
+				This website was made by me in my first sem at college and I never bothered to improve it even though my skills in web dev grew. 
+				I still keep on adding new things as I like.
+				<br><br>
+				I see this website as a portal for me and my stuff alone. Some nice people have stumbled on this at times and I welcome them 🙇. 
+				But it is unlikely that I will keep everything updated here or that I will change the design of this website partly due to other work.
+			</span>
+		</h4>
+		<hr>
 	</div>
 	<!-- <div class="hit-counter" style="display: none;"> -->
 	<!--Visitor Counter-->	
