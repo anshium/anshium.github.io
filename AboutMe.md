@@ -8,15 +8,15 @@ Fun facts about me:
 - I have learned 5 Human Languages and understand a lot more. But currently proficient in speaking two and familiar with one more (my mothertongue).
 - I like nature, mountains and off-road destinations a lot and always look out to visiting them.
 - I have eaten Maggie at 13,050 ft.
-- While doing the coursework for the course on Operating Systems and Networks, I accidently created a virus. I believe so. Maybe.
+- While doing the coursework for the course on Operating Systems and Networks, I accidently created a virus. I believe so.
 - I like making robots very much. Especially those which go to far away, desserted or dangerous places.
 - I am a huge aviation geek. Wanna learn to fly a plane someday.
 - I have gotten banned by LinkedIn twice.
-- I have gotten banned by Instagram once.
+- I have gotten banned by Instagram twice or thrice.
 - I like animals too. Elephants, cats, and more.
-- For breakfast I like whatever Mom makes. Sindhi Dal Pakwan, Chole Bhature, Koki, Aloo Parantha are among my favorites.
+- For breakfast I like whatever Mom makes. Dal Pakwan, Chole Bhature, Koki, Aloo Parantha are among my favorites.
 
-Both the times I was banned, it turned out to be a false allegation and they gave me back my permissions. However, I did not bother to write an inquiry the second time I was banned on LinkedIn. It is banned to this day.
+Both the times I was banned, it turned out to be a false allegation and they gave me back my permissions. However, I did not bother to write an inquiry the second time I was banned on LinkedIn. It was banned for a good while.
 
 Fun facts about this website:
 - This website has some secret web pages.

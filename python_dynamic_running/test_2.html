@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matplotlib with Pyodide</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.3/full/pyodide.js"></script>
+</head>
+<body>
+    <h1>Matplotlib with Pyodide</h1>
+    <button onclick="plotGraph()">Render Plot</button>
+    <div id="plot"></div>
+    <script>
+        let pyodideReady = loadPyodide();
+
+        async function plotGraph() {
+            const pyodide = await pyodideReady;
+            await pyodide.loadPackage(["matplotlib", "numpy"]);
+
+            const code = `
+import matplotlib.pyplot as plt
+import io
+import base64
+
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
+plt.plot(x, y)
+
+buf = io.BytesIO()
+plt.savefig(buf, format='png')
+buf.seek(0)
+
+encoded = base64.b64encode(buf.read()).decode('utf-8')
+buf.close()
+
+encoded
+            `;
+
+            const result = await pyodide.runPythonAsync(code);
+            document.getElementById("plot").innerHTML = `<img src="data:image/png;base64,${result}" />`;
+        }
+    </script>
+</body>
+</html>

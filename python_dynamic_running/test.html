@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python with WASM</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.3/full/pyodide.js"></script>
+</head>
+<body>
+    <h1>Run Python in WASM</h1>
+    <textarea id="python-code" rows="10" cols="50">
+        print("Hello, World!") 
+        a = 10 
+        b = 20 
+        print(f"The sum of a and b is {a + b}") 
+    </textarea> 
+    <button onclick="runPython()">Run</button> 
+    <pre id="output"></pre>
+
+    <script>
+        let pyodideReady = loadPyodide();
+ 
+        async function runPython() {
+            const pyodide = await pyodideReady;
+            const pythonCode = document.getElementById("python-code").value;
+            try {
+                const result = pyodide.runPython(pythonCode);
+                document.getElementById("output").textContent = result || "Execution completed!";
+            } catch (error) {
+                document.getElementById("output").textContent = error;
+            }
+        }
+    </script>
+</body> 
+</html> 

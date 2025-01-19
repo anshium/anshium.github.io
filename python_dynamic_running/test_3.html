@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Python Editor with Matplotlib</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.3/full/pyodide.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #container {
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            margin-top: 20px;
+        }
+        textarea {
+            width: 50%;
+            height: 400px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        #plot {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Python Editor with Matplotlib</h1>
+    <h3>All the print and traceback outputs in developer console!</h3>
+    <div id="container">
+        <textarea id="python-code">
+import matplotlib.pyplot as plt
+import io
+import base64
+
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
+
+plt.clf()
+
+plt.plot(x, y)
+plt.title("Sample Plot")
+plt.xlabel("X-axis")
+plt.ylabel("Y-axis")
+
+buf = io.BytesIO()
+plt.savefig(buf, format='png')
+buf.seek(0)
+
+# DO NOT MODIFY ANYTHING BELOW THIS COMMENT PLS
+
+encoded = None
+encoded = base64.b64encode(buf.read()).decode('utf-8')
+buf.close()
+
+encoded
+        </textarea>
+
+        <div id="plot">
+            <p>Click "Run Code" to see the plot here</p>
+        </div>
+    </div>
+    <button onclick="runPython()">Run Code</button>
+
+    <script>
+        let pyodideReady = loadPyodide();
+
+        async function runPython() {
+            const pyodide = await pyodideReady;
+            
+            const plotDiv = document.getElementById("plot");
+            plotDiv.innerHTML = "Loading Packages...";
+
+            await pyodide.loadPackage(["matplotlib", "numpy", "scipy"]);
+
+            plotDiv.innerHTML = "Rendering...";
+
+            const pythonCode = document.getElementById("python-code").value;
+
+            try {
+                const result = await pyodide.runPythonAsync(pythonCode);
+                document.getElementById("plot").innerHTML = `<img src="data:image/png;base64,${result}" />`;
+            } catch (error) {
+                document.getElementById("plot").innerHTML = `<p style="color: red;">${error}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
