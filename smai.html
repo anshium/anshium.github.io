@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Locations Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 80vh; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([17.44789944, 78.34834694], 100);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var photoData = [
+            { dmsLat: "17°26'52.438\" N", dmsLng: "78°20'54.049\" E", angle: 188, img: "smai_pics/1.jpeg" },
+            { dmsLat: "17°26'52.697\" N", dmsLng: "78°20'53.807\" E", angle: 153, img: "smai_pics/2.jpeg" },
+            { dmsLat: "17°26'52.520\" N", dmsLng: "78°20'53.520\" E", angle: 158, img: "smai_pics/3.jpeg" },
+            { dmsLat: "17°26'52.898\" N", dmsLng: "78°20'53.428\" E", angle: 273, img: "smai_pics/4.jpeg" },
+            { dmsLat: "17°26'53.052\" N", dmsLng: "78°20'53.508\" E", angle: 344, img: "smai_pics/5.jpeg" },
+            { dmsLat: "17°26'52.715\" N", dmsLng: "78°20'53.567\" E", angle: 13, img: "smai_pics/6.jpeg" },
+            { dmsLat: "17°26'49.771\" N", dmsLng: "78°20'57.538\" E", angle: 344, img: "smai_pics/12.jpeg" },
+            { dmsLat: "17°26'49.970\" N", dmsLng: "78°20'57.278\" E", angle: 69, img: "smai_pics/13.jpeg" },
+            
+            { dmsLat: "17°26'50.059\" N", dmsLng: "78°20'57.354\" E", angle: 280, img: "smai_pics/14.jpeg" },
+            // { dmsLat: "17°26'49.771\" N", dmsLng: "78°20'57.538\" W", angle: 153, img: "smai_pics/12.jpg" },
+            // { dmsLat: "17°26'49.771\" N", dmsLng: "78°20'57.538\" W", angle: 153, img: "smai_pics/12.jpg" },
+        ];
+
+        function dmsToDecimal(dms) {
+            let parts = dms.match(/(\d+)°(\d+)'([\d.]+)"?\s*([NSEW])/i);
+            if (!parts) return null;
+
+            let degrees = parseFloat(parts[1]);
+            let minutes = parseFloat(parts[2]);
+            let seconds = parseFloat(parts[3]);
+            let direction = parts[4].toUpperCase();
+
+            let decimal = degrees + minutes / 60 + seconds / 3600;
+            
+            if (direction === "S" || direction === "W") decimal *= -1;
+
+            return decimal;
+        }
+
+        function addPhotoMarker(photo) {
+            let lat = dmsToDecimal(photo.dmsLat);
+            let lng = dmsToDecimal(photo.dmsLng);
+
+            if (lat === null || lng === null) {
+                console.error("Invalid coordinates:", photo.dmsLat, photo.dmsLng);
+                return;
+            }
+
+            L.circleMarker([lat, lng], {
+        radius: 4,
+        color: 'blue',
+        fillColor: 'green',
+        fillOpacity: 1
+    }).addTo(map).bindPopup(`<img src="${photo.img}" width="200px"><br>Angle: ${photo.angle}°`);
+
+            var length = 0.0005;
+            var radian = photo.angle * (Math.PI / 180);
+            var endLat = lat + length * Math.cos(radian);
+            var endLng = lng + length * Math.sin(radian);
+
+            L.polyline([[lat, lng], [endLat, endLng]], { color: 'red', weight: 2 }).addTo(map);
+        }
+
+        photoData.forEach(addPhotoMarker);
+    </script>
+
+</body>
+</html>
