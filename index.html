@@ -1,204 +1,31 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-	<title>My Github Site!</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&family=Shadows+Into+Light+Two&family=Unna&display=swap" rel="stylesheet">
-
-	<style>
-		body{
-			font-size: 120%;
-			background-color: rgb(255, 252, 242); /*Floral Colour*/
-		}
-		.title{
-			font-family: 'Comfortaa', cursive;
-			text-align: center;
-			color: rgb(31,186,96); /*Emerald*/
-		}
-		.navbar{
-			font-family: 'Shadows Into Light Two', cursive;
-			display: block;		
-			text-align: center;
-			margin-top: 1%;
-		}
-		.navbar a{
-			background-color: rgb(255,166,43);
-			color: rgb(255, 255, 255);
-			padding: 5px;
-			border: 1px solid black;
-			text-decoration: none; 
-		}
-		#funny-home-text{
-			font-family: 'Comfortaa', cursive;
-			text-align: center;
-			color: rgb(184,205,50);
-			margin-left: 20%;
-			margin-right: 20%;
-		}
-		#PnF{
-			font-family: 'Comfortaa', cursive;
-			text-align: center;
-			color: rgb(254,205,50);
-			font-size: 30px;
-		}
-		#Phineas{
-			font-family: 'Comfortaa', cursive;
-			text-align: center;
-			color: rgb(238,118,0); /*Orange*/
-			font-size: 30px;
-		}
-		#Ferb{
-			font-family: 'Comfortaa', cursive;
-			text-align: center;
-			color: rgb(31,186,96);
-			font-size: 30px;
-		}
-		#website-under-construction{
-			background-color: transparent;
-		} 
-		#website-under-construction hr{
-			color: white;
-		}
-		#website-under-construction h2{
-			color: orange;
-			font-size: 20px;
-			font-family: 'Comfortaa', cursive;
-			text-align: center;
-		}
-		#website-under-construction h4{
-			color: rgb(255, 119, 0);
-			font-size: 15px;
-			font-family: 'Comfortaa', cursive;
-			/* text-align: center; */
-		}
-		#blue{
-			color: rgb(100, 100, 200);
-		}
-		#orange{
-			color: orange;
-		}
-		#pink{
-			color: rgb(255, 100, 200);
-		}
-
-		#note-content {
-			display: block;
-		}
-
-		/* #note-button:hover + #note-content {
-			display: inline;
-			animation: fadeIn 0.3s ease-in-out;
-		} */
-
-		#note-button {
-			cursor: pointer;
-			color: rgb(0, 68, 255);
-			border: none;
-			padding: 5px 10px;
-			border-radius: 5px;
-			font-size: 14px;
-			/* transition: background-color 0.3s; */
-			background-color: #b6b6b6;
-		}
-
-		/* #note-button:hover {
-			background-color: #b6b6b6;
-		} */
-
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-			}
-			to {
-				opacity: 1;
-			}
-		}
-
-		body {
-			margin: 0;
-			overflow: hidden;
-			position: relative;
-			}
-
-			.police-tape-overlay {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				z-index: 9999;
-				pointer-events: none;
-			}
-
-
-			.police-tape-overlay::before {
-				content: "I am changing my website for formal purposes";
-				position: absolute;
-				top: 80%;
-				left: 50%;
-				transform: translate(-50%, -50%) rotate(-0deg);
-				font-family: 'Impact', sans-serif;
-				font-size: 3vw;
-				color: white;
-				white-space: nowrap;
-				padding: 5px 20px;
-				background-color: rgba(0, 0, 0, 0.5);
-				border-radius: 5px;
-			}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansh Chablani</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-	<div class="police-tape-overlay">
-	
-	<div class = "navbar">
-		<hr>
-			<a href = "index.html">Home</a>
-			<a href = "MagicalBlog.html">The Magical Blog</a>
-			<a href = "AboutMe.html">About Me</a>
-			<a href = "InterestingStories.html">Interesting Stories</a>
-			<a href = "https://www.khanacademy.org/profile/anshc/projects">Cool Stuff</a>
-			<a href = "Secrets.html">Some Secrets (Shh)</a>
-			<a href = "course_timetable.html">IIIT-H</a>
-			<a href = "bucket_list.html">Bucket List :)</a>
-		<hr>
-	</div>
-	
-	<h1 class = "title">I am Ansh C.</h1>
-	
-	<p id="funny-home-text">I like nachos, apples, <span id = "orange">oranges</span>, the universe, potatoes, green leafy vegetables, oranges, colours, my website, clocks, microscopes, refrigerators, telescopes, steel bottles, fragrant notebooks, <span id = "pink">flying pigs</span>, cats, dogs, ladybugs, cherries, Phineas and Ferb, bittergourd (not really), <span id="blue">robotics</span>, math, elephants, C.</p>
-	
-	<h2 id = "PnF">I am a huge <span id = "Phineas">Phineas</span> and <span id = "Ferb">Ferb</span> Fan!</h2>
-	
-	<div id="website-under-construction">
-		<hr>
-		<h2>Website is under construction - and will remain for a while</h2>
-		<h4>
-			<button id="note-button">Note:</button>
-			<span id="note-content">
-				I made this website in my first sem at college and I never bothered to improve it even though my skills in web dev grew. 
-				I still keep on updating it adding new things as I like.
-				<br><br>
-				I see this website as a portal for me and my stuff alone. Some nice people have stumbled on this at times and I welcome them 🙇. 
-				But it is unlikely that I will keep everything updated here or that I will change the design of this website partly due to other work.
-			</span>
-		</h4>
-		<hr>
-	</div>
-	<!-- <div class="hit-counter" style="display: none;"> -->
-	<!--Visitor Counter-->	
-		<!-- <a href='http://www.freevisitorcounters.com'>www.Freevisitorcounters.com</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=ed4df2079df649c7aeb35b26edf4daf654aa7e49'></script>
-		<script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1009216/t/0"></script> -->
-	<!-- </div> -->
-	<!--Things to do:
-	Standardize Colours
-	Add pages
-	-->
-</div>
+    <div class="container">
+        <header>
+            <h1>Ansh Chablani</h1>
+        </header>
+        <main>
+            <p>CS Undergrad and Robotics Researcher at IIIT - Hyderabad.</p>
+            <p>Visit my interesting <a href="/minimalist/projects.html">projects page</a> for more on the work I do.</a></p>
+            <p>Visit my <a href="/index_old.html">old website</a> for more about me as a person.</a></p>
+            <div class="links">
+                <a href="https://github.com/anshium">Github</a>
+                <a href="https://www.linkedin.com/in/ansh-chablani/">LinkedIn</a>
+                <a href="https://www.youtube.com/channel/UCE9MPJFDLoP5bX5uCrmwJQg">YouTube</a>
+                <a href="/minimalist/cat_and_dog.html">My Cat and Dog</a>
+            </div>
+            <div class="optional-links">
+                <a href="/blog">Quotes</a>
+                <a href="/minimalist/bucket_list.html">Bucket List</a>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
-	
-	
