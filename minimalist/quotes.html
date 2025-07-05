@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .quote {
+            position: relative;
+            max-height: 120px;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        .read-more {
+            color: rgb(60, 0, 255);
+            cursor: pointer;
+            display: inline;
+            transition: opacity 0.3s ease;
+        }
+
+        .quote .read-more {
+            color: blue;
+            cursor: pointer;
+            display: inline;
+            transition: opacity 0.3s ease;
+        }
+
+        .quote.open {
+            max-height: none;
+        }
+
+        .quote.open .read-more {
+            opacity: 0;
+        }
+
+        .quote.closed .more-text {
+            display: none;
+        }
+
+        .quote.closed .read-more {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Quotes and Excerpts I Like</h1>
+        </header>
+        <main>
+            <ul id="quotes-list">
+                <li>From "The Gods must be Crazy" - Civilised man refused to adapt himself to this environment. Instead he adapted his environment to suit him. So he built cities roads, vehicles, machinery and he put of power lines to run his labour saving devices but somehow he didn't know when to stop. The more he improved his surroundings to make his life easier, the more complicated he made it. So now, his children are sentenced to 15-20 years at school just to learn how to survice in this complex and hazardous habitat they were born into. And the civil man who refuses to adapt himself to his natural surroundings now finds that he has to adapt and readapt himself to every day and every hour to his self-created environment.</li>
+                <li>From "The Bee Movie" - According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway. Because bees don't care what humans think is impossible.</li>
+                <li>The world holds many mysteries but what may seem strange to one is the common place to another. - Ferb Fletcher</li>
+                <li>When life gets you down, you know what you gotta do? - just keep swimming, just keep swimming, just keep swimming, swimming, swimming, swimming. - Dory</li>
+                <li>Quit, don't quit... Noodles, don't noodles... You are too concerned about what was and what will be. There is a saying: yesterday is history, tomorrow is a mystery, but today is a gift. That is why it is called the present. - Master Oogway</li>
+                <li>You'll never know the value of a moment until it becomes a memory.</li>
+                <li>There is, in the end, the let go.</li>
+                <li>So many random things happening in the world at once that don't feel like they make sense.</li>
+                <li>But we all try to find our seven to hold onto. (taken out of context)</li>
+                <li>You live in terror of not being understood.</li>
+                <li>“Man cannot remake himself without suffering, for he is both the marble and the sculptor.” -Alexis Carrel-</li>
+                <li>कर्मण्येवाधिकारस्ते मा फलेषु कदाचन। मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥ २-४७</li>
+            </ul>
+            <div class="optional-links">
+                <a href="/index.html">Home</a>
+            </div> 
+        </main>
+    </div>
+
+    <script>
+        const maxLength = 300;
+
+        document.querySelectorAll('#quotes-list li').forEach(quote => {
+            const quoteText = quote.innerHTML;
+            if (quoteText.length > maxLength) {
+                const visibleText = quoteText.slice(0, maxLength);
+                const hiddenText = quoteText.slice(maxLength);
+                
+                quote.innerHTML = `${visibleText}<span class="more-text" style="display:none">${hiddenText}</span><span class="read-more">... Read more</span>`;
+                
+                const readMoreButton = quote.querySelector('.read-more');
+                readMoreButton.addEventListener('click', function () {
+                    const moreText = quote.querySelector('.more-text');
+                    if (quote.classList.contains('open')) {
+                        moreText.style.display = 'none';
+                        quote.classList.remove('open');
+                        readMoreButton.innerHTML = '... Read more';
+                    } else {
+                        moreText.style.display = 'inline';
+                        quote.classList.add('open');
+                        readMoreButton.innerHTML = '... Read less';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
