@@ -1,22 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects</title>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Projects</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link rel="stylesheet" href="style.css">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary': '#0a0a0a',      // Black background
+              'secondary': '#1a1a1a',    // Dark gray card background
+              'accent': '#2a2a2a',      // Lighter gray for borders/tag-bg
+              'highlight': '#3b82f6',    // Blue for accents and tags
+              'text-primary': '#f0f0f0', // Off-white text
+              'text-secondary': '#888888', // Gray text for descriptions
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Projects</h1>
-        </header>
-        <main>
-            <p>To be updated</p>
-            <div class="optional-links">
-                <a href="/index.html">Home</a>
-            </div>
-        </main>
+  <body class="bg-primary text-text-primary font-sans">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <header class="flex justify-between items-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight">
+          My Projects
+        </h1>
+        <nav>
+          <a href="#" class="text-lg text-text-secondary hover:text-highlight transition-colors duration-300">
+            Home
+          </a>
+        </nav>
+      </header>
+      
+      <main id="project-container" class="space-y-16">
+        <!-- Project lists will be dynamically inserted here by index.js -->
+      </main>
+
+      <footer class="text-center mt-20 py-6 border-t border-accent">
+        <p class="text-text-secondary">To be updated with more projects soon.</p>
+      </footer>
     </div>
-</body>
+    <script type="module" src="projects.js"></script>
+  </body>
 </html>
