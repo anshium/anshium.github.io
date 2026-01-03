@@ -60,7 +60,7 @@ before
   Your browser does not support the video tag.
 </video>
 
-If the video does not render, [click here to view the video](iiith/rrc/videos/traj_0_20260103_152225.mp4).
+If the video does not render, [click here to view the video](videos/traj_0_20260103_152225.mp4).
 
 
 after
@@ -72,7 +72,7 @@ after
   Your browser does not support the video tag.
 </video>
 
-If the video does not render, [click here to view the video](iiith/rrc/videos/traj_0_20260103_153328.mp4).
+If the video does not render, [click here to view the video](videos/traj_0_20260103_153328.mp4).
 
 (another type of data)
 
@@ -81,14 +81,14 @@ If the video does not render, [click here to view the video](iiith/rrc/videos/tr
   Your browser does not support the video tag.
 </video>
 
-If the video does not render, [click here to view the video](iiith/rrc/videos/traj_0_20260103_154138.mp4).
+If the video does not render, [click here to view the video](videos/traj_0_20260103_154138.mp4).
 
 <video width="320" height="240" controls>
   <source src="iiith/rrc/videos/traj_3_20260103_072424.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
-If the video does not render, [click here to view the video](iiith/rrc/videos/traj_3_20260103_072424.mp4).
+If the video does not render, [click here to view the video](videos/traj_3_20260103_072424.mp4).
 
 ## 1. Initial Implementation
 
@@ -156,7 +156,7 @@ After training for 200 epochs, I finally ran the model in simulation. The result
   Your browser does not support the video tag.
 </video>
 
-If the video does not render, [click here to view the video](iiith/rrc/videos/traj_0_20260103_152225.mp4).
+If the video does not render, [click here to view the video](videos/traj_0_20260103_152225.mp4).
 
 
 Side-by-side comparison showing:
@@ -669,7 +669,7 @@ Statistics match well!
   Your browser does not support the video tag.
 </video>
 
-If the video does not render, [click here to view the video](iiith/rrc/videos/traj_0_20260103_153328.mp4).
+If the video does not render, [click here to view the video](videos/traj_0_20260103_153328.mp4).
 
 
 - AFTER (separate normalization) - smooth, natural motion
