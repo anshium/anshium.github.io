@@ -4,17 +4,85 @@
 
 ## Table of Contents
 
-1. [The Beginning: Initial Implementation](#1-the-beginning-initial-implementation)
-2. [First Crisis: Discontinuous Trajectories](#2-first-crisis-discontinuous-trajectories)
-3. [Discovery: The Formulation Mismatch](#3-discovery-the-formulation-mismatch)
-4. [Building Debug Tools](#4-building-debug-tools)
-5. [Second Crisis: The Normalization Bug](#5-second-crisis-the-normalization-bug)
-6. [Improving Conditioning: From MLP to FiLM](#6-improving-conditioning-from-mlp-to-film)
-7. [Dataset Challenges](#7-dataset-challenges)
-8. [Architecture Choices: DiT vs UNet](#8-architecture-choices-dit-vs-unet)
-9. [Final Status & Lessons Learned](#9-final-status--lessons-learned)
+- [Writeup - 3rd January 2026](#writeup---3rd-january-2026)
+  - [I have used LLMs as helpers to write this report (mostly Claude Sonnet 4.5)](#i-have-used-llms-as-helpers-to-write-this-report-mostly-claude-sonnet-45)
+  - [Table of Contents](#table-of-contents)
+  - [1. Initial Implementation](#1-initial-implementation)
+    - [1.1 The Starting Point](#11-the-starting-point)
+  - [2. Discontinuous Trajectories](#2-discontinuous-trajectories)
+    - [2.1 The Problem](#21-the-problem)
+    - [2.2 Initial Debugging Attempts](#22-initial-debugging-attempts)
+    - [2.3 Simplifying the Problem: Horizon and Planning Strategy](#23-simplifying-the-problem-horizon-and-planning-strategy)
+  - [3. Discovery: The Formulation Mismatch](#3-discovery-the-formulation-mismatch)
+    - [3.1 Building Visualization Tools](#31-building-visualization-tools)
+    - [3.2 The Root Cause](#32-the-root-cause)
+    - [3.3 The Fix: Proper Flow Matching](#33-the-fix-proper-flow-matching)
+  - [4. Building Debug Tools](#4-building-debug-tools)
+    - [4.1](#41)
+    - [4.2 Tool 1: Ground Truth Comparison](#42-tool-1-ground-truth-comparison)
+    - [4.3 Tool 2: Conditioning Sensitivity Test](#43-tool-2-conditioning-sensitivity-test)
+    - [4.4 Tool 3: Deep Data Pipeline Diagnostic](#44-tool-3-deep-data-pipeline-diagnostic)
+  - [5. The Normalization Bug (The main issue after everything else)](#5-the-normalization-bug-the-main-issue-after-everything-else)
+    - [5.1 The Discovery](#51-the-discovery)
+    - [5.2 Understanding the Scale Problem](#52-understanding-the-scale-problem)
+    - [5.3 The Fix (This was the main fix :)](#53-the-fix-this-was-the-main-fix-)
+    - [5.4 Results After Normalization Fix](#54-results-after-normalization-fix)
+  - [6. Improving Conditioning: From MLP to FiLM](#6-improving-conditioning-from-mlp-to-film)
+    - [6.1 Simplifying First: Plain Concatenation](#61-simplifying-first-plain-concatenation)
+    - [6.2 Adding Back Sophistication: FiLM Conditioning](#62-adding-back-sophistication-film-conditioning)
+    - [6.3 Conditioning Sensitivity After FiLM](#63-conditioning-sensitivity-after-film)
+  - [7. Dataset Challenges](#7-dataset-challenges)
+    - [7.1 The 31-Trajectory Bottleneck](#71-the-31-trajectory-bottleneck)
+    - [7.2 Root Causes](#72-root-causes)
+    - [7.3 Solutions](#73-solutions)
+    - [7.4 Synthetic Data for Validation](#74-synthetic-data-for-validation)
+  - [8. Architecture Choices: DiT vs UNet](#8-architecture-choices-dit-vs-unet)
+    - [8.1 Starting with DiT](#81-starting-with-dit)
+    - [8.2 Adding UNet Alternative](#82-adding-unet-alternative)
+    - [8.3 Post-UNet Discovery: The Normalization Fix Revisited](#83-post-unet-discovery-the-normalization-fix-revisited)
+  - [9. Summary](#9-summary)
+    - [9.0 What Worked](#90-what-worked)
+    - [9.1 What Didn't Work](#91-what-didnt-work)
+    - [9.3 Current Working System](#93-current-working-system)
+    - [9.4 Validation Results](#94-validation-results)
+    - [9.5 Files Created](#95-files-created)
+    - [9.8 Final Thoughts](#98-final-thoughts)
+    - [Configuration](#configuration)
 
 ---
+
+tl;dr (the arms do not yet reach the tray, I just want to show that flow matching is no longer the problem now. The dataset the "after" video has been trained on is representative of its behavior. I explain ahead why that means that having enough data of our task would give similar results.)
+
+before
+
+<video width="320" height="240" controls>
+  <source src="iiith/rrc/videos/traj_0_20260103_152225.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
+after
+
+(one type of data)
+
+<video width="320" height="240" controls>
+  <source src="iiith/rrc/videos/traj_0_20260103_153328.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+(another type of data)
+
+<video width="320" height="240" controls>
+  <source src="iiith/rrc/videos/traj_0_20260103_154138.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
+
+<video width="320" height="240" controls>
+  <source src="iiith/rrc/videos/traj_3_20260103_072424.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## 1. Initial Implementation
 
@@ -77,7 +145,11 @@ After training for 200 epochs, I finally ran the model in simulation. The result
 
 **Video to show what was happening:**
 
-**[VIDEO PLACEHOLDER]**
+<video width="320" height="240" controls>
+  <source src="iiith/rrc/videos/traj_0_20260103_152225.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 
 Side-by-side comparison showing:
 
@@ -318,7 +390,8 @@ reconstructed = x_t + (1 - t) * velocity
 error = (reconstructed - x_0).abs().mean()
 
 print(f"Reconstruction error: {error:.10f}")
-****```
+****
+```
 
 **Results After Fix:**
 
@@ -330,18 +403,6 @@ Epoch 50: loss=0.051  # Actually converging now!
 
 ---
 
-### 3.4 Outcome
-
-**[VIDEO PLACEHOLDER]**
-
-Side-by-side comparison showing:
-
-- Left: BEFORE (DDPM training, flow inference) - erratic, unstable trajectories
-- Right: AFTER (consistent CFM formulation) - smooth, converging trajectories
-
-The trajectories were much better! But still not perfect. There were still occasional jumps, just less severe.
-
----
 
 ## 4. Building Debug Tools
 
@@ -595,12 +656,13 @@ Error Metrics:
 Statistics match well!
 ```
 
-**[VIDEO PLACEHOLDER]**
+<video width="320" height="240" controls>
+  <source src="iiith/rrc/videos/traj_0_20260103_153328.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
-Side-by-side comparison showing:
 
-- Left: BEFORE (shared normalization) - discontinuous, jumpy trajectories
-- Right: AFTER (separate normalization) - smooth, natural motion
+- AFTER (separate normalization) - smooth, natural motion
 
 This fix was CRITICAL. The trajectories were now smooth and stable!
 
@@ -1127,6 +1189,7 @@ class FlowRolloutPlanner:
 
 ### 9.0 What Worked
 
+
 The successful fixes, in order of impact:
 
 1. **Flow Matching Formulation Fix** - Most critical, everything else failed without this
@@ -1202,7 +1265,7 @@ trajectories = model.sample_ddim(
 
 ### 9.4 Validation Results
 
-**[VIDEO PLACEHOLDER]**
+
 
 Side-by-side comparison showing the final system:
 
