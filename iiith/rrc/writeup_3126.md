@@ -26,7 +26,6 @@
     - [5.1 The Discovery](#51-the-discovery)
     - [5.2 Understanding the Scale Problem](#52-understanding-the-scale-problem)
     - [5.3 The Fix (This was the main fix :)](#53-the-fix-this-was-the-main-fix-)
-    - [5.4 Results After Normalization Fix](#54-results-after-normalization-fix)
   - [6. Improving Conditioning: From MLP to FiLM](#6-improving-conditioning-from-mlp-to-film)
     - [6.1 Simplifying First: Plain Concatenation](#61-simplifying-first-plain-concatenation)
     - [6.2 Adding Back Sophistication: FiLM Conditioning](#62-adding-back-sophistication-film-conditioning)
@@ -401,14 +400,6 @@ print(f"Reconstruction error: {error:.10f}")
 ****
 ```
 
-**Results After Fix:**
-
-```bash
-Epoch 10: loss=0.892
-Epoch 20: loss=0.234
-Epoch 50: loss=0.051  # Actually converging now!
-```
-
 ---
 
 
@@ -636,34 +627,6 @@ if self.use_velocities and self.normalize:
 
 ---
 
-### 5.4 Results After Normalization Fix
-
-**Training:**
-
-```bash
-Epoch 10: loss=0.234
-Epoch 20: loss=0.089
-Epoch 50: loss=0.012  # Much faster convergence! (and more stable also)
-```
-
-**Statistics Comparison:**
-
-```
-Ground Truth Statistics:
-  Mean:  0.043
-  Std:   1.521
-
-Flow Matching Statistics:
-  Mean:  0.041
-  Std:   1.498  # NOW IT MATCHES!
-
-Error Metrics:
-  MAE:  0.187
-  RMSE: 0.243
-
-Statistics match well!
-```
-
 <video width="320" height="240" controls>
   <source src="iiith/rrc/videos/traj_0_20260103_153328.mp4" type="video/mp4">
   Your browser does not support the video tag.
@@ -672,10 +635,7 @@ Statistics match well!
 If the video does not render, [click here to view the video](videos/traj_0_20260103_153328.mp4).
 
 
-- AFTER (separate normalization) - smooth, natural motion
-
-This fix was CRITICAL. The trajectories were now smooth and stable!
-
+- AFTER (separate normalization) - smooth motion
 ---
 
 ## 6. Improving Conditioning: From MLP to FiLM
@@ -710,14 +670,6 @@ class ConditionEncoder(nn.Module):
 
         return condition_embedding
 ```
-
-**Results:**
-
-- Training time: 20% faster
-- Convergence: Actually better! Loss = 0.009 vs 0.012 with MLP
-- Debugging: Much easier to understand what information model receives
-
-The MLP was adding complexity without benefit.
 
 ---
 
@@ -1215,10 +1167,10 @@ The successful fixes, in order of impact:
 
 Failed approaches, in chronological order:
 
-1. **MLP-based conditioning** - Added complexity without benefit, removed in Week 4
-2. **DDPM-style training with flow inference** - Fundamental mismatch, fixed in Week 2
-3. **Shared normalization** - Catastrophic scale problems, fixed in Week 3
-4. **Batch data collection** - Hit limits at ~31 trajectories, fixed Week 4
+1. **MLP-based conditioning** - Added complexity without benefit
+2. **DDPM-style training with flow inference** - Fundamental mismatch
+3. **Shared normalization** - Catastrophic scale problems
+4. **Batch data collection** - Hit limits at ~31 trajectories
 5. **Custom flow matching sampling** - I ended up using the `torchcfm` library.
 ---
 
@@ -1257,8 +1209,6 @@ loss = model.compute_loss(
     arms_start, arms_start_vel, arms_goal  # Conditioning
 )
 
-# Training results
-# Epoch 50: loss=0.009, MAE=0.187, RMSE=0.243
 ```
 
 **Inference:**
