@@ -1,0 +1,148 @@
+body {
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-wrapper {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+#world_map_container {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2rem;
+    box-sizing: border-box;
+    background: radial-gradient(circle at center, #0a0a10 0%, #000 100%);
+}
+
+#world_map {
+    width: 100%;
+    height: auto;
+    max-height: 85vh;
+}
+
+#world_map path {
+    fill: #1a1a1a;
+    stroke: #000;
+    stroke-width: 0.4px;
+    transition: all 0.3s ease;
+}
+
+#world_map path:hover {
+    fill: #333 !important;
+}
+
+#side-text {
+    width: 32%;
+    min-width: 320px;
+    padding: 3rem 2rem;
+    box-sizing: border-box;
+    background-color: #050505;
+    border-left: 1px solid #111;
+    overflow-y: auto;
+    max-height: calc(100vh - 60px);
+}
+
+#side-text-header {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 200;
+    color: #fff;
+    margin-bottom: 2rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+#side-text p,
+#side-text div {
+    font-size: 0.95rem;
+    color: #d7d7d7;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+.Countries {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+}
+
+.Countries>li {
+    margin-bottom: 2.5rem;
+    /* border-left: 1px solid #222; */
+    padding-left: 1.2rem;
+    color: #d7d7d7;
+    font-size: 0.95rem;
+}
+
+.Countries br {
+    display: block;
+    margin-top: 0.5rem;
+    /* content: ""; */
+}
+
+.States {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+    /* display: grid; */
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+}
+
+.States li {
+    font-size: 0.8rem;
+    color: #d7d7d7;
+}
+
+.States li::before {
+    content: "·";
+    margin-right: 0.4rem;
+    font-weight: bold;
+}
+
+#tooltip {
+    display: none;
+    position: absolute;
+    padding: 6px 10px;
+    background-color: rgba(0, 0, 0, 0.95);
+    color: #4093f3;
+    border: 1px solid #222;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    /* text-transform: uppercase; */
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+    .layout-wrapper {
+        flex-direction: column;
+        overflow: visible;
+    }
+
+    #side-text {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #111;
+        max-height: none;
+    }
+
+    #world_map_container {
+        padding: 1rem;
+    }
+}
