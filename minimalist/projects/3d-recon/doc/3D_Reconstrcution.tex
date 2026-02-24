@@ -1,0 +1,491 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+%Template version as of 6/27/2024
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{stfloats}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{hyperref}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{3D Reconstruction and Nearest 6-DoF Pose Estimation using Truncated Signed Distance Functions\\}
+
+\author{
+\IEEEauthorblockN{Ansh Chablani}
+\IEEEauthorblockA{IIIT Hyderabad \\
+2022111031 \\
+ansh.chablani@research.iiit.ac.in}
+\and
+\IEEEauthorblockN{Gaurav Behera}
+\IEEEauthorblockA{IIIT Hyderabad \\
+2022111004 \\
+gaurav.behera@research.iiit.ac.in}
+\and
+
+\IEEEauthorblockN{Samkit Jain}
+\IEEEauthorblockA{IIIT Hyderabad \\
+2022102062 \\
+samkit.jain@students.iiit.ac.in}
+}
+
+\maketitle
+
+\begin{abstract}
+In this paper, we present a pipeline for real-time 3D reconstruction and nearest 6 Degrees of Freedom (6DOF) pose estimation of objects from monocular RGB-D video data. Our approach integrates multiple computer vision and robotics techniques to provide the nearest pose estimation, giving a good initialization for more robust 6DOF pose estimation methods that can be used for applications such as augmented reality, robotics, and autonomous systems. The pipeline is composed of three main steps: (1) construction of a dense 3D model using Truncated Signed Distance Function (TSDF) fusion from consecutive depth maps, (2) estimation of the object’s 6DOF pose, and (3) generation of a high-resolution 3D mesh through the Marching Cubes algorithm and Occupancy Dual Contouring algorithm, which allows for refined pose estimation via differential rendering. Our approach aims to provides accurate, efficient, and scalable solutions for 3D object tracking and pose estimation in real-time applications.
+
+GitHub Repository: \href{https://github.com/anshium/3d-recon-pose-estimation-monocular-rgb}{https://github.com/anshium/3d-recon-pose-estimation-monocular-rgb}
+\end{abstract}
+
+\section{Introduction}
+In the 6 Degrees of Freedom (6DOF) Pose Estimation problem, the objective is to accurately determine the position and orientation of an object within a three-dimensional space, often using RGB or RGB-D images. The term 6DOF refers to the six essential parameters required to describe the object’s pose: three for translation and three for rotation with respect to the camera's reference frame. Accurate prediction of these parameters is crucial for enabling a robot or computer vision system to perceive the exact location and orientation of an object relative to the camera or within a global coordinate system. This understanding of an object’s spatial properties is fundamental to various applications, such as robotic manipulation, augmented reality, and autonomous navigation.
+
+\section{Related Work}
+
+\subsection{CAD Model Based Pose Estimation}
+Older methods for 6DOF pose estimation relied on CAD models of objects as ground-truth 3D references. These approaches typically followed a sequence: object detection, feature extraction, feature matching to the CAD model, and pose refinement.
+\begin{itemize}
+    \item \textbf{Object Detection and Segmentation:} The object of interest is detected using handcrafted features, such as edges, contours, and keypoints (e.g., SIFT or ORB). In some cases, color or texture information is used to segment the object from the background, and CAD models for multiple objects are stored for use in the pipeline.
+    \item \textbf{Feature Extraction and Matching:} After detection, visual features from the image are matched to predefined keypoints on the CAD model using descriptors like SIFT or SURF, establishing 2D-3D correspondences.
+    \item \textbf{Pose Estimation Using PnP:} The Perspective-n-Point (PnP) algorithm estimates the 6DOF pose by aligning 2D image points with corresponding 3D CAD points, using intrinsic camera parameters for accurate mapping.
+    \item \textbf{Pose Refinement:} Optimization methods like ICP refine the initial pose by minimizing alignment errors between the CAD model and the observed image.
+\end{itemize}
+
+The limitations of CAD-based methods include sensitivity to occlusions, lighting, and texture variations, making feature matching challenging for low-texture or repetitive objects. Each object requires a unique CAD model and keypoint annotation, making these methods difficult to scale. Reflective surfaces, such as glass or metal, create specular highlights and reflections that introduce false keypoints, leading to inaccurate pose estimates. Classical methods struggle with these challenges, as reflections create variable, viewpoint-dependent patterns that interfere with consistent feature matching.
+
+\subsection{CAD Model-Free Approaches (OnePose\cite{sun2022onepose} and OnePose++ \cite{he2022oneposeplusplus})}
+While CAD Model based approaches have a much higher accuracy, over the years several CAD Model-Free Approaches have tried to match the accuracy of these model. Here we discuss the more recent ones.
+
+OnePose++ proposes a keypoint-free one-shot object pose estimation method, called OnePose++, that does not require CAD models. The method is inspired by the feature-matching-based method, OnePose, and uses a keypoint-free feature matching pipeline to reconstruct a semi-dense point-cloud model for an object from an image sequence with annotated poses. Given a query image, the method uses a 2D-3D matching network to directly establish correspondences between the query image and the reconstructed point-cloud model, without first detecting keypoints in the image.
+
+    OnePose++ is a \textbf{two-stage pipeline} that consists of a keypoint-free structure from motion (SfM) stage and an object pose estimation stage.
+    \begin{itemize}
+        \item \textbf{Stage 1: Keypoint-Free Structure from Motion Stage} \par
+        This stage reconstructs the object's semi-dense point cloud from a reference image sequence with known object poses using a coarse-to-fine scheme that leverages the coarse and fine stages of the LoFTR\cite{sun2021loftr} keypoint-free feature matching method.
+
+        \item \textbf{Stage 2: Object Pose Estimation Stage} \par
+        The object pose estimation stage takes a query image and establishes 2D-3D matches between the reconstructed object point cloud and the image to estimate the object's pose using a coarse-to-fine scheme for efficiency.
+        
+    \item \textbf{Evaluation} \par
+    The method is evaluated on the OnePose, LINEMOD and OnePose-LowTexture datasets, using the cm-degree pose success rate, ADD(S)-0.1d, and 2D projection error metrics. The experiments show that OnePose++ claims to achieve state-of-the-art results compared to existing one-shot object pose estimation methods, and claims to achieve comparable results with instance-level methods that require object CAD models.
+    \end{itemize}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\linewidth]{one_pose_plus_plus_pipeline.png}
+        \caption{OnePose++ Pipeline Overview}
+        \label{fig:enter-label}
+    \end{figure}
+
+\subsection{Bundle Adjustment Methods}
+BundleSDF \cite{wen2023bundlesdf} proposes a novel method for 6-DoF pose tracking and 3D reconstruction of unknown, dynamic objects from monocular RGBD video sequences. The method only requires a 2D object mask in the first frame of the video and assumes the object is rigid.
+\begin{itemize}
+    \item \textbf{Coarse pose initialization:} BundleSDF obtains an initial estimate of the object pose in the current frame by matching features with the previous frame using an object-agnostic video segmentation network. The identified correspondences, along with depth information, are used by a RANSAC-based pose estimator \cite{fischler1981random} to determine the coarse pose estimate.
+    \item \textbf{Memory Pool:} A key-frame memory pool is maintained to alleviate catastrophic forgetting and reduce long-term tracking drift. The first frame is used for defining the canonical coordinate system for the unknown object. Subsequent frames are added only if their viewpoint significantly enhances the multi-view diversity of the pool.
+    \item \textbf{Pose Graph Optimization:} An online pose graph optimization process is used to refine the object pose estimates over time. A subset of frames from the memory pool is dynamically selected to participate in the optimization which jointly refines the poses of the selected frames and the current frame, minimizing a loss function that accounts for pairwise edge losses and a unary loss.
+    \item \textbf{Neural Object Field:} A Neural Object Field is concurrently trained with the pose graph optimization to reconstruct the 3D shape and appearance of the object. The Neural Object Field uses a signed distance function (SDF) representation which learns to represent the object's geometry and appearance from the posed memory frames, refining the previously estimated poses
+\end{itemize}
+BundleSDF achieves state-of-the-art performance on several benchmarks, including HO3D, YCBInEOAT, and BEHAVE datasets. It exhibits robustness in handling challenging scenarios, such as fast motion, occlusions, lack of texture, and specular highlights.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{bundle_sdf_pipeline.png}
+    \caption{BundleSDF Framework Overview}
+    \label{fig:enter-label}
+\end{figure}
+
+\subsection{Truncated Signed Distance Function}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{tsdf_pipeline.png}
+    \caption{2D TSDF example. (a) Solid object (green), camera with field of view, optical axis and ray (blue), and TSDF grid (unseen voxels are white, for others see color bar). The signed distance value of voxel x is determined by the depth of the corresponding surface point p and the voxel's camera distance cam(x). (b) 1D TSDF sampled along the ray through p with t = 1000 mm. Object surface is at zero crossing.}
+    \label{fig:enter-label}
+\end{figure}
+
+
+
+Truncated Signed Distance Function \cite{werner2014truncated} is a volumetric scene representation used for integrating multiple depth images taken from different viewpoints to reconstruct a 3D model of a scene. TSDF is favored for its efficiency in terms of both time and space, and its suitability for parallel processing on GPUs, allowing for real-time processing at high frame rates.
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{images/image.png}
+    \caption{Datasets}
+    \label{fig:enter-label}
+\end{figure*}
+\begin{itemize}
+    \item \textbf{Representing the Scene:} The scene is broken into a 3D grid made up of equally sized cubes called voxels. Each voxel stores information about its distance to the nearest object surface.
+    \item \textbf{Signed Distance Function (SDF):} For each voxel, the SDF value is calculated which is the distance between the center of the voxel and the closest point on the object's surface along the line of sight from the camera.
+    \item \textbf{Truncation:} In TSDF, the SDF values are truncated at a certain distance (±t). This means any distances beyond this threshold are simply assigned the maximum or minimum truncated value. This truncation has two main benefits - memory efficiency and focus on relevant information.
+    \item \textbf{Integrating Multiple Observations:} A key strength of TSDF is its ability to combine data from multiple depth images. Each new observation is integrated into the existing TSDF using a weighted average. This iterative updating process helps to refine the 3D model over time and fill in any gaps or missing information from individual viewpoints.
+    \item \textbf{Surface Reconstruction:} To reconstruct the surface, a technique called ray casting is used. Rays are cast from the camera's viewpoint through the TSDF grid. When a ray crosses from a positive TSDF value to a negative one, it indicates an intersection with the object surface. The precise intersection point is then estimated using interpolation between the surrounding TSDF values.
+\end{itemize}
+
+\section{Dataset}
+Three primary data sources were employed: the 7 Scenes dataset, commonly used for TSDF-based scene reconstruction, and synthetic datasets generated using Blender and Gazebo for controlled experimentation.
+
+\subsection{7-Scenes Dataset}
+The 7-Scenes dataset is a widely used benchmark for scene reconstruction and pose estimation tasks. It consists of RGB-D video sequences captured in realistic indoor environments. The dataset includes 7 distinct scenes: Chess, Fire, Heads, Office, Pumpkin, RedKitchen, and Stairs. Each scene provides the RGB images and depth maps recorded with a Kinect sensor and the ground-truth 6DOF poses corresponding to each RGB-D frame. 
+
+\subsection{Blender}
+We generated synthetic data using Blender to create controlled environments for testing and validating our pipeline. The dataset generation process involved several key steps to ensure high-quality RGB images, depth maps, and accurate camera poses. First, we designed 3D environments by importing object models, arranging them within the scene, and setting up textures and materials, light sources such as point lights, ambient lights for visual fidelity. Using Blender's animation tools, we created camera trajectories by defining keyframes for position and orientation, enabling smooth transitions and dynamic viewpoints across the scene. Depth maps were computed using Blender’s Render Passes, where the Z-depth data from the scene was captured and scaled.
+
+To streamline the process, we developed Python scripts utilizing Blender’s API to automate the rendering and data extraction pipeline. These scripts exported RGB images, normalized depth maps, and stored camera poses as transformation matrices. All data—RGB images, depth maps, and camera poses—were synchronized and saved in a structured format, ready for direct integration into our TSDF pipeline. The following datasets were generated using Blender: Suzanne (non-textured), Stanford Bunny (non-textured) and Table with objects (textured)
+
+\subsection{Gazebo}
+We also generated a dataset using a robot simulation done with ROS and Gazebo. This involved moving a robot with a depth camera around another object, which publishing the depth image, RGB image and the poses on separate topics and recording these topics in a rosbag.
+
+Then we extracted the topics and converted to the format of the reconstruction script while making several transformations and resampling which was required due to different sampling rates of the images and the pose information of the camera on the robot.
+
+A model SUV was generated using a differential mobile robot on which an Intel RealSense simulated camera was installed. The robot was controlled using a tele-operation method on the /cmd\_vel topic.
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{overall_pipeline.png}
+    \caption{Pipeline for real-time 3D reconstruction and pose estimation of objects from video data. The process consists of three main stages: (1) 3D model construction using Truncated Signed Distance Function (TSDF) fusion, which integrates RGB images, depth maps, and camera poses to build a volumetric representation of the object; (2) 6 Degrees of Freedom (6DOF) pose estimation to determine the object’s position and orientation; and (3) mesh generation for refined pose estimation, producing a detailed 3D model suitable for applications in real-time tracking, augmented reality, and robotics.}
+    \label{fig:enter-label}
+\end{figure*}
+\section{Method}
+We propose a comprehensive pipeline for the real-time 3D reconstruction and pose estimation of objects from video data. The method leverages RGB images, depth maps, and camera poses as inputs, transforming this data into a 3D model that captures the object’s shape, orientation, and position. Our approach is designed to handle dynamic input from video, making it robust for applications in real-time tracking, augmented reality, robotics, and virtual environments. The process is divided into three main steps: constructing a 3D model using Truncated Signed Distance Function (TSDF) fusion, estimating the 6 Degrees of Freedom (6DOF) pose, and generating a 3D mesh for refined pose estimation. Below, we delve into each step with a detailed description.
+
+
+\subsection{TSDF Construction for 3D Reconstruction}
+
+The Truncated Signed Distance Function (TSDF) is a volumetric representation where each voxel encodes the signed distance to the nearest surface. The proposed pipeline is designed to be both efficient and adaptable for CPU and GPU processing, allowing scalability across various applications.
+
+\begin{enumerate}
+    \item \textbf{Volume Bounds} \par
+    Using the depth maps and camera parameters, the spatial bounds of the scene are computed. First, each pixel in the depth map is projected into the 3D world in the camera frame using the inverse of the camera intrinsics. These points are then transformed into the global coordinate system using the camera pose matrix. By aggregating the results from all frames, the union of the camera frustums defines the overall scene bounds.
+    
+    \item \textbf{Initialization} \par
+    Initialization defines the spatial boundaries and resolution of the volumetric grid, ensuring accurate scene representation. Once the bounds are established, the volumetric grid is constructed with a resolution defined by the voxel size, which dictates the number of voxels along each axis. Each voxel is initialized with a TSDF value of $+1$, representing no surface within the truncation distance, an initial weight of $0$, and the color set to black, indicating no contribution from any frame. The initialization step lays the foundation for subsequent integration, aligning the voxel grid with the observed scene and ensuring computational efficiency.
+    
+    \item \textbf{Frame Integration} \par
+    Each frame, comprising the depth map, RGB image, and pose, contributes to updating the TSDF and weight grids. This process involves voxel-to-camera projection, truncated signed distance calculation, and updating the TSDF, weights, and colors. 
+    For each voxel, the world coordinates are transformed into the camera coordinate system, where they are then projected onto the image plane to identify the corresponding pixel locations. Voxels whose pixel locations fall outside the image boundaries are discarded during the update process.
+    
+    The signed distance $d$ between the voxel center and the surface is computed using the following formula:
+    \begin{equation}
+        d = D_{\text{pixel}} - D_{\text{voxel}},
+    \end{equation}
+    where $D_{\text{pixel}}$ represents the depth value of the projected pixel from the depth map, and $D_{\text{voxel}}$ is the distance of the voxel from the camera along the principal axis. The truncation step involves clipping the signed distance to the range of $[-t, t]$, where $t$ is the truncation margin. This is achieved by normalizing the distance obtained by $t$ and clipping it to the range $[-1, 1]$.
+    \begin{equation}
+        t_d = \max(-1, \min(1, d/t)).
+    \end{equation}
+    This truncation improves memory efficiency and focuses the reconstruction on the relevant scene information. After truncating the signed distance, the computed truncated distance value and the weight of the frame are used to update the TSDF.
+    
+    \item \textbf{Update Step} \par
+    The TSDF value $t_d$ for a voxel is updated using a weighted average:
+    \begin{equation}
+        t_d' = \frac{w \cdot t + w_{\text{new}} \cdot t_d}{w + w_{\text{new}}},
+    \end{equation}
+    where $w_{\text{new}}$ is the frame's contribution weight, $t$ and $w$ are the currently stored values for the TSDF and weight, respectively. The weight grid is also updated:
+    \begin{equation}
+        w' = w + w_{\text{new}}.
+    \end{equation}
+    The RGB color of the voxel is updated similarly:
+    \begin{equation}
+        C' = \frac{w \cdot C + w_{\text{new}} \cdot C_{\text{new}}}{w + w_{\text{new}}},
+    \end{equation}
+    where $C$ is the current color, and $C_{\text{new}}$ is the color of the voxel based on the given RGB image of the new frame.
+
+    \item \textbf{GPU Optimization}
+    The CUDA code optimization for the TSDF-based 3D reconstruction pipeline significantly improves the computational efficiency and scalability, enabling real-time processing for large datasets. The code is designed to leverage parallel processing capabilities of modern GPUs, where each voxel update, depth map projection, and mesh generation step is performed concurrently across many threads. Shared memory is utilized for frequently accessed data such as depth maps and voxel information, reducing the need for slower global memory accesses. Furthermore, the occupancy of the GPU is optimized by adjusting block sizes and thread counts to ensure that the maximum number of threads is utilized without causing resource contention. These optimizations collectively enable the pipeline to handle real-time pose estimation and mesh reconstruction, providing high performance for 3D model generation and refinement.
+    
+\end{enumerate}
+
+
+\subsection{Mesh Generation}
+There are two methods we have used for generating a mesh from the TSDF representation of the 3D object: Marching Cubes and Occupancy Dual Contouring.
+\begin{itemize}
+    \item \textbf{Marching Cubes} algorithm is a popular method for generating meshes from a TSDF. It works by processing the TSDF in a grid of cubes, where each voxel is classified based on the sign of the TSDF value (inside or outside the surface). The algorithm then interpolates the surface along the edges of the cubes where the TSDF value changes sign, using a precomputed lookup table to generate triangles. This process results in a smooth surface representation but can produce overly detailed meshes, especially at high resolutions.
+    \item \textbf{Occupancy Dual Contouring} is an alternative method designed to handle sharp features and generate more efficient meshes. Instead of using edge intersections like Marching Cubes, it places vertices at the centroids of voxel faces that intersect the surface. This allows for better preservation of sharp features and reduces the number of vertices, resulting in a more efficient mesh. Dual Contouring is especially useful for 3D models requiring high fidelity, such as those with sharp geometric details.
+\end{itemize}
+
+\subsection{6DOF Pose Estimation}
+Once the TSDF-based 3D model is generated, the next step is to estimate the 6 Degrees of Freedom (6DOF) pose of the object in each new frame. This is done by finding the nearest pose from the frames that have already been used for constructing the TSDF. The nearest pose corresponds to the frame that has the minimum Mean Squared Error (MSE) loss between the TSDF points. Specifically, we compare only the surface points of the TSDF, ignoring the texture, as the goal is to match the shape and spatial positioning of the object. The frame with the smallest MSE loss in surface alignment is considered the closest pose, which provides an initial estimate of the object's 6DOF pose.
+
+Once the initial pose is estimated using this nearest neighbor approach, the generated 3D mesh (obtained from the TSDF) can be fed into the continuation of the pipeline for further refinement. The key next step involves using epipolar geometry to rectify the initial pose. Epipolar geometry helps to align the new frame with the reference frame by considering the geometry of the camera setup. This process adjusts for any misalignment between the initial mesh and the observed scene, refining the pose to more accurately represent the object’s position in the 3D space. Epipolar rectification ensures that the poses are consistent across different viewpoints by adjusting for any camera translation or rotation errors.
+
+After the rectification step, the pose undergoes differential rendering, a technique that compares the silhouette of the rendered 3D model (from the current pose) with the silhouette extracted from the 2D image. This comparison helps to refine the pose by calculating the difference between the predicted and observed silhouette boundaries. The resulting error (or loss) is then backpropagated through the network to update the pose. The gradients from this process help to adjust the pose parameters in order to minimize the discrepancy between the rendered and observed silhouette, ultimately yielding the final, refined 6DOF pose.
+
+This pipeline—starting with nearest pose estimation using TSDF, followed by epipolar geometry rectification and differential rendering—ensures that the 6DOF pose is progressively refined for accurate 3D reconstruction and pose tracking. 
+
+
+% \section*{Work Contribution}
+% \begin{itemize}
+%     \item 
+% \end{itemize}
+
+
+\section{Results}
+
+\subsection{3D Reconstruction}
+
+% Suzanne %
+\begin{figure}[htbp]
+  \centering
+  % Row 1
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/suzanne/rgb_0067.png}
+    \caption{RGB Image 1}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/suzanne/rgb_0049.png}
+    \caption{RGB Image 2}
+  \end{subfigure}
+
+  \medskip
+
+  % % Row 2
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/suzanne/depth_0067.png}
+    \caption{Depth Image 1}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/suzanne/depth_0049.png}
+    \caption{Depth Image 2}
+  \end{subfigure}
+
+  \medskip
+
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/suzanne/marching_cubes.png}
+    \caption{\centering Reconstructed Mesh}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/suzanne/pc.png}
+    \caption{\centering Reconstructed Point Cloud}
+  \end{subfigure}
+
+  \caption{3D Reconstructions using the RGB-D images and camera poses}
+  \label{fig:3d_reconstruction}
+\end{figure}
+The figure \ref{fig:3d_reconstruction} demonstrates 3D reconstruction using RGB-D images and camera poses. RGB images (a, b) and corresponding depth images (c, d) are used to generate a reconstructed mesh (e) and point cloud (f). The mesh represents the object surface, while the point cloud provides a spatially discrete representation for visualization and analysis.
+
+% Gradual Mesh Creation %
+\begin{figure}[htbp]
+  \centering
+  % Row 1
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/gradual/bunny_10.png}
+    \caption{Frames = 10}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/gradual/bunny_50.png}
+    \caption{Frames = 50}
+  \end{subfigure}
+  
+  \medskip
+  
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/gradual/bunny_100.png}
+    \caption{Frames = 100}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/gradual/bunny_200.png}
+    \caption{Frames = 200}
+  \end{subfigure}
+  \caption{Update TSDF with more frames.}
+  \label{fig:tsdf_update}
+\end{figure}
+
+The figure \ref{fig:tsdf_update} shows the meshes of the Bunny dataset as it gets constructed, with the number of frames increasing from 10 to 200. The impact of incorporating more data on the object's representation helps in adding more information resulting in better reconstructions..
+
+
+\subsection{Textured Mesh Reconstruction}
+
+% Textured Scene %
+\begin{figure}[htbp]
+  \centering
+  % Row 1
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/table/rgb_0030.png}
+    \caption{RGB Image 1}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/table/rgb_0110.png}
+    \caption{RGB Image 2}
+  \end{subfigure}
+  
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/table/table_textured.png}
+    \caption{Mesh for Textured Scene}
+  \end{subfigure}
+
+  \medskip
+
+  \caption{Reconstructed mesh of the Table with objects dataset}
+  \label{fig:textured_recon}
+\end{figure}
+
+The concept of storing and updating TSDF values can be expanded to include updating the color value at each voxel. A Marching Cubes-like algorithm can then be used to determine the color for each mesh vertex through interpolation techniques. Figure \ref{fig:textured_recon} presents the colored reconstructed mesh derived from the RGB images.
+
+
+
+\subsection{Comparison of TSDF Hyper-parameters}
+
+The hyper-parameters in TSDF construction are the voxel size and the truncation distance.
+
+% Voxel Size %
+\begin{figure}[htbp]
+  \centering
+  % Row 1
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/hyperparameters/voxel/v_0.01.png}
+    \caption{Voxel Size = 0.01}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/hyperparameters/voxel/v_0.02.png}
+    \caption{Voxel Size = 0.02}
+  \end{subfigure}
+  
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/hyperparameters/voxel/v_0.5.png}
+    \caption{Voxel Size = 0.5}
+  \end{subfigure}
+
+  \medskip
+
+  \caption{Difference in meshes on varying Voxel Sizes}
+  \label{fig:hyperparam_voxel_size}
+\end{figure}
+
+Figure \ref{fig:hyperparam_voxel_size} shows the quality of reconstructed meshes with varying voxel sizes. Smaller voxel sizes result in finer details which might also appear as nice but increase computational complexity, while larger voxel sizes reduce detail, leading to a coarser mesh. This highlights the trade-off between reconstruction accuracy and efficiency when selecting voxel resolutions for 3D reconstruction tasks.
+
+% Truncation Distance %
+\begin{figure}[htbp]
+  \centering
+  % Row 1
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/hyperparameters/truncdist/b_0.01.png}
+    \caption{Dist = 0.01}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/hyperparameters/truncdist/b_0.1.png}
+    \caption{Dist = 0.1}
+  \end{subfigure}
+  
+  \begin{subfigure}[t]{0.2\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/hyperparameters/truncdist/b_0.5.png}
+    \caption{Dist = 0.5}
+  \end{subfigure}
+
+  \medskip
+
+  \caption{Difference in meshes on varying Truncation Distances}
+  \label{fig:hyperparam_trunc_dist}
+\end{figure}
+
+Figure \ref{fig:hyperparam_trunc_dist} illustrates the impact of varying truncation distances on TSDF-based reconstruction. Smaller truncation distances preserve finer surface details but may result in incomplete reconstructions near sharp edges. In contrast, larger truncation distances smooth out surfaces but risk losing detail. Balancing truncation distance is crucial for accurate and efficient reconstruction.
+
+
+\subsection{TSDF to Mesh Methods}
+\begin{figure}[h]
+    \centering
+    % First image
+    \begin{subfigure}[t]{0.2\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/suzanne/marching_cubes.png}
+        \caption{\centering Marching Cubes}
+        \label{fig:image1}
+    \end{subfigure}
+    % Second image
+    \begin{subfigure}[t]{0.2\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/suzanne/odc.png}
+        \caption{\centering Occupancy Dual Contouring}
+        \label{fig:image2}
+    \end{subfigure}
+
+    \caption{Comparison of TSDF to Mesh Methods}
+    \label{fig:tsdf_to_mesh}
+\end{figure}
+
+Figure \ref{fig:tsdf_to_mesh} shows that Marching Cubes generates a denser and noisier surface representation, while Occupancy Dual Contouring produces a cleaner, lower-polygon mesh. However, Occupancy Dual Contouring (OCD) is computationally expensive, requiring significantly more processing time compared to Marching Cubes. This trade-off makes Marching Cubes more suitable for applications demanding quick reconstruction, while OCD is better for scenarios requiring approximate and simplified surfaces. 
+
+\subsection{Scene Reconstruction}
+\begin{figure}[h]
+    \centering
+    % First image
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/kitchen/kitchen.png}
+        \caption{Reconstructed Kitchen Mesh}
+        \label{fig:image1}
+    \end{subfigure}
+    
+    \medskip
+
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/kitchen/frame-000037.color.jpg}
+        \caption{Original Kitchen Image from Dataset}
+        \label{fig:image2}
+    \end{subfigure}
+
+    \caption{Comparison of TSDF to Mesh Methods}
+    \label{fig:tsdf_to_mesh}
+\end{figure}
+
+The process of reconstructing 3D objects from general images can also be applied to scenes where different views capture various parts of the environment. All the information from various areas of a scene can be integrated into the TSDF. Figure \ref{fig:scene_recon} illustrates the reconstructed mesh of a kitchen from the 7-Scenes Dataset.
+
+
+\subsection{Performance Analysis}
+% table for time taken
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+    & \textbf{Stanford Bunny} & \textbf{Suzanne} & \textbf{Table with object} \\
+    \midrule
+    \textbf{Frame Count} & 500 & 500 & 500 \\
+    \textbf{Time Taken (s)} & 1.68 & 0.45 & 1.68 \\
+    \textbf{FPS} & 296.67 & 530.74 & 296.67 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Speed comparison for different objects.}
+  \label{tab:speed_comparison}
+\end{table}
+The results presented in the Table \ref{tab:speed_comparison} highlight a significant improvement in performance when comparing the execution times for three different objects: Stanford Bunny, Suzanne, and Table with Object. The CPU implementation achieved a mere 0.5 FPS, which highlights a stark contrast in processing power. The speedup achieved by the GPU implementation is substantial—nearly 600 to 1000 times faster than the CPU version, showcasing the enormous advantages of using GPUs for computationally intensive tasks like rendering and object processing. 
+
+
+\section{Conclusion}
+This work presents a robust and efficient pipeline for real-time 3D reconstruction and 6-DoF pose estimation using Truncated Signed Distance Functions (TSDF). The proposed methodology combines advanced techniques, including volumetric representation, mesh generation, and pose refinement, to achieve high accuracy and scalability. Through extensive evaluation on real-world and synthetic datasets, the approach demonstrates significant advantages in handling dynamic scenarios, such as occlusions and texture variations, while achieving state-of-the-art performance metrics.
+
+The integration of GPU optimization enables real-time processing, significantly improving computational efficiency compared to CPU-based implementations. Moreover, the comparative analysis of mesh generation techniques and TSDF hyperparameters highlights the trade-offs between quality and computational demands, providing valuable insights for various application contexts.
+
+Overall, this pipeline establishes a foundation for future advancements in applications such as augmented reality, robotics, and autonomous systems, emphasizing its potential for real-time deployment and further refinement.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

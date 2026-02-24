@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Reconstruction & Pose Estimation</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .container {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .project-header {
+            margin-bottom: 3rem;
+        }
+
+        .project-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .authors {
+            font-size: 0.9rem;
+            color: #767676;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-caption {
+            font-size: 1rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .section-p {
+            margin-bottom: 1.5rem;
+            color: #ccc;
+        }
+
+        .image-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 1.5rem 0;
+        }
+
+        .image-row img {
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .caption {
+            font-size: 0.85rem;
+            color: #767676;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .single-fig {
+            margin: 2rem 0;
+        }
+
+        .single-fig img {
+            width: 100%;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #222;
+        }
+
+        th {
+            color: #767676;
+            font-weight: 400;
+        }
+
+        .links {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #222;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="project-header">
+            <h1>3D Reconstruction & 6-DoF Pose Estimation</h1>
+            <div style="margin-bottom: 0.8rem;">
+                <a href="https://github.com/anshium/3d-recon-pose-estimation-monocular-rgb">GitHub Repository</a> &bull;
+                <a href="https://drive.google.com/file/d/1smdEvAw-ayK4UTe4mLjiMqgPfDYhbDhM/view">Report / Paper</a>
+            </div>
+            <div class="authors">Ansh Chablani, Gaurav Behera, Samkit Jain &bull; IIIT Hyderabad</div>
+            <img src="projects/3d-recon/images/kitchen/kitchen.png" alt="Reconstructed Kitchen" class="hero-img">
+            <div class="hero-caption">Reconstructed 3D mesh of a kitchen environment from the 7-Scenes Dataset.</div>
+        </header>
+
+        <main>
+            <section
+                style="font-style: italic; color: #767676; border-left: 2px solid #333; padding-left: 1rem; margin: 2rem 0;">
+                <p><strong>Abstract:</strong> We present a pipeline for real-time 3D reconstruction and nearest 6
+                    Degrees of Freedom (6DOF) pose estimation of objects from monocular RGB-D video data. Our approach
+                    integrates TSDF fusion to build dense 3D models, with pose initialization refined through epipolar
+                    geometry and differential rendering.</p>
+            </section>
+
+            <section>
+                <h2>Introduction & Related Work</h2>
+                <p class="section-p">6-DoF pose estimation determines the position and orientation of an object in 3D
+                    space. While traditional methods rely on <strong>CAD Models</strong>, they often fail under
+                    occlusions or lighting changes. Modern <strong>CAD Model-Free</strong> approaches like OnePose++ and
+                    BundleSDF (shown below) allow for tracking objects without prior geometry models.</p>
+
+                <div class="image-row">
+                    <img src="projects/3d-recon/images/one_pose_plus_plus_pipeline.png" alt="OnePose++">
+                    <img src="projects/3d-recon/images/bundle_sdf_pipeline.png" alt="BundleSDF">
+                </div>
+                <div class="caption">Comparisons of CAD-free architectures: OnePose++ and BundleSDF.</div>
+            </section>
+
+            <section>
+                <h2>Reconstructed Results</h2>
+                <p class="section-p">The core of the project involves integrating depth maps into a volumetric grid.
+                    Below are reconstructions of scenes and synthetic objects.</p>
+
+                <div class="single-fig">
+                    <img src="projects/3d-recon/images/table/table_textured.png" alt="Textured Table">
+                    <div class="caption">Textured mesh reconstruction of the Table dataset.</div>
+                </div>
+
+                <div class="image-row">
+                    <img src="projects/3d-recon/images/gradual/bunny_10.png" alt="Bunny 10">
+                    <img src="projects/3d-recon/images/gradual/bunny_200.png" alt="Bunny 200">
+                </div>
+                <div class="caption">Incremental reconstruction of the Stanford Bunny (10 frames vs 200 frames).</div>
+
+                <div class="image-row">
+                    <img src="projects/3d-recon/images/kitchen/frame-000037.color.jpg" alt="Kitchen Color">
+                    <img src="projects/3d-recon/images/kitchen/kitchen.png" alt="Kitchen Reconstruction">
+                </div>
+                <div class="caption">Full scene reconstruction of a kitchen from the 7-Scenes Dataset.</div>
+            </section>
+
+            <section>
+                <h2>Methodology: TSDF Fusion</h2>
+                <p class="section-p">Each voxel stores a signed distance $d$ to the nearest surface, truncated to $[-t,
+                    t]$. The update rule for a voxel's TSDF value ($t_d$) and weight ($w$) is a weighted average:</p>
+
+                <div
+                    style="background: #111; padding: 1rem; border-radius: 4px; font-family: monospace; margin: 1.5rem 0; font-size: 0.85rem; border: 1px solid #222;">
+                    t_d' = (w * t + w_new * t_d) / (w + w_new)<br>
+                    w' = w + w_new
+                </div>
+
+                <div class="single-fig">
+                    <img src="projects/3d-recon/images/tsdf_pipeline.png" alt="TSDF Detail">
+                    <div class="caption">2D TSDF integration logic: Voxel-to-camera projection.</div>
+                </div>
+
+                <p class="section-p">Using <strong>CUDA</strong>, we optimized voxel updates and mesh generation steps
+                    to ensure real-time performance even with high voxel resolutions.</p>
+
+                <div class="single-fig">
+                    <img src="projects/3d-recon/images/overall_pipeline.png" alt="Overall Pipeline">
+                    <div class="caption">System architecture for real-time 3D reconstruction and pose estimation.</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>6-DoF Pose Refinement</h2>
+                <p class="section-p">After estimating an initial pose via nearest-neighbor search, we apply refinement:
+                </p>
+                <ul style="color: #ccc; line-height: 1.6; margin-bottom: 2rem;">
+                    <li><strong>Epipolar Geometry:</strong> Rectifies misalignment between frames.</li>
+                    <li><strong>Differential Rendering:</strong> Minimizes the discrepancy between rendered silhouettes
+                        and observed data via backpropagation.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Datasets</h2>
+                <p class="section-p">Experiments were conducted on the <strong>7-Scenes</strong> dataset, synthetic
+                    <strong>Blender</strong> models, and <strong>Gazebo</strong> simulations of dynamic objects (SUV
+                    models).
+                </p>
+                <div class="single-fig">
+                    <img src="projects/3d-recon/images/image.png" alt="Datasets">
+                    <div class="caption">Examples from the various datasets used for testing.</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Performance & Benchmarks</h2>
+                <p class="section-p">The GPU implementation achieved substantial speedups (up to 1000x) over CPU-based
+                    methods.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dataset</th>
+                            <th>Frames</th>
+                            <th>Time (s)</th>
+                            <th>FPS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Stanford Bunny</td>
+                            <td>500</td>
+                            <td>1.68</td>
+                            <td>296.67</td>
+                        </tr>
+                        <tr>
+                            <td>Suzanne</td>
+                            <td>500</td>
+                            <td>0.45</td>
+                            <td>530.74</td>
+                        </tr>
+                        <tr>
+                            <td>Table Scene</td>
+                            <td>500</td>
+                            <td>1.68</td>
+                            <td>296.67</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Hyper-parameters & Methods</h2>
+                <p class="section-p">Comparison between Marching Cubes and Occupancy Dual Contouring, along with voxel
+                    size and truncation experiments.</p>
+
+                <div class="image-row">
+                    <img src="projects/3d-recon/images/suzanne/marching_cubes.png" alt="Marching Cubes">
+                    <img src="projects/3d-recon/images/suzanne/odc.png" alt="ODC">
+                </div>
+                <div class="caption">Marching Cubes vs Occupancy Dual Contouring.</div>
+
+                <div class="image-row">
+                    <img src="projects/3d-recon/images/hyperparameters/voxel/v_0.01.png" alt="0.01">
+                    <img src="projects/3d-recon/images/hyperparameters/voxel/v_0.5.png" alt="0.5">
+                </div>
+                <div class="caption">Impact of voxel size (0.01 vs 0.5).</div>
+
+                <div class="image-row">
+                    <img src="projects/3d-recon/images/hyperparameters/truncdist/b_0.01.png" alt="0.01">
+                    <img src="projects/3d-recon/images/hyperparameters/truncdist/b_0.5.png" alt="0.5">
+                </div>
+                <div class="caption">Impact of truncation distance (0.01 vs 0.5).</div>
+            </section>
+
+            <footer class="links">
+                <a href="https://github.com/anshium/3d-recon-pose-estimation-monocular-rgb">GitHub Repository</a>
+                <a href="/index.html">Home</a>
+            </footer>
+        </main>
+    </div>
+</body>
+
+</html>
