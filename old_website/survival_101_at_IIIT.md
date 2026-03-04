@@ -1,4 +1,10 @@
-# Survival 101 at IIIT - Hyderabad
+---
+layout: default
+title: Survival 101 at IIIT
+permalink: /survival_101_at_IIIT.html
+---
+
+### Survival 101 at IIIT-H
 
 ## Ways to Tackle Sleep
 1. Drink water that is slighly below room temperature.

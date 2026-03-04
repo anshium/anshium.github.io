@@ -5,9 +5,9 @@ relative_links:
   collections: true
 include:
   - README.md
-  - cg_codebase.md
-  - AboutMe.md
-  - excerpts.md
-  - MagicalBlog.md
-  - MagicalBlog_hidden.md
-  - iiith/rrc/writeup_3126.md
+  - old_website/cg_codebase.md
+  - old_website/AboutMe.md
+  - old_website/excerpts.md
+  - old_website/MagicalBlog.md
+  - old_website/MagicalBlog_hidden.md
+  - old_website/iiith/rrc/writeup_3126.md

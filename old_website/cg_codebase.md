@@ -1,3 +1,9 @@
+---
+layout: default
+title: CG Codebase
+permalink: /cg_codebase.html
+---
+
 # Code Explanation for the CG Codebase
 
 After being overwhelmed with massive code bases, we often try to find where the main function is in the codebase.

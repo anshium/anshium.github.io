@@ -1,9 +1,15 @@
+---
+layout: default
+title: About Me
+permalink: /AboutMe.html
+---
+
 Hi, I am Ansh.
 
 I was born and brought up in Delhi, India.
 
 Fun facts about me:
-- I like to play the Tabla, and am especially intersted in Hindustani Classical. Need to practice, haven't done that since a while.
+- I like to play the Tabla, and I am especially intersted in Hindustani Classical. Need to practice, haven't done that since a while.
 - I also enjoy many types of songs, mostly mid-tune Bollywood songs, Sufi songs and upbeat English. Though, I don't fixate myself to specific genres.
 - I have learned 5 Human Languages and understand a lot more. But currently proficient in speaking two and familiar with one more (my mothertongue).
 - I like nature, mountains and off-road destinations a lot and always look out to visiting them.
