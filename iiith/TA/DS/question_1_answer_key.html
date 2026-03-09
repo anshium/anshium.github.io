@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanistic Interpretability</title>
+    <link rel="stylesheet" href="../../../minimalist/style.css">
+    <style>
+        .container {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px 10px;
+            border-bottom: 1px solid #222;
+        }
+
+        th {
+            color: #767676;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.8rem;
+        }
+
+        td a {
+            margin-right: 0;
+            display: inline-block;
+        }
+
+        .footer-links {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #222;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Distributed Systems Midsem Q1 Answer Key</h1>
+            <p style="color: #767676; margin-bottom: 2rem;">Spring 2026</p>
+        </header>
+
+        <main>
+            <table>
+                <tr>
+                    <th colspan="2">A. Non-Blocking Property (4 Marks)</th>
+                </tr>
+                <tr>
+                    <th>Marks</th>
+                    <th>Expected Answer Components</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>States correctly that the modified protocol <strong>does not preserve the non-blocking property</strong>.</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Explains that the coordinator proceeds after receiving acknowledgements from only <strong>k processes</strong> instead of all participants.</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Describes the failure scenario where the <strong>coordinator crashes after sending commit to those k processes</strong>.</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Explains the result: <strong>some processes commit while others remain in PreCommit or uncertain state</strong>, causing blocking or inconsistent decisions.</td>
+                </tr>
+
+                <tr>
+                    <th colspan="2">B. Correctness of the Modified Protocol (4 Marks)</th>
+                </tr>
+                <tr>
+                    <th>Marks</th>
+                    <th>Expected Answer Components</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>States correctly that the modification <strong>is not a correct or acceptable variation</strong> of the protocol.</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Explains that in standard 3PC <strong>all processes must reach the PreCommit state before commit messages are sent</strong>.</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Notes that the modification allows <strong>different processes to be in different states</strong> (some committed, others not).</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Explains the consequence: this can <strong>violate atomicity and correctness guarantees</strong> of the commit protocol.</td>
+                </tr>
+            </table>
+
+            <footer class="footer-links">
+                <a href="/">Home</a>
+                <a href="/minimalist/projects.html">Projects</a>
+            </footer>
+        </main>
+    </div>
+</body>
+
+</html>
