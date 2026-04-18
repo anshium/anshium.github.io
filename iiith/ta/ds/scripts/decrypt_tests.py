@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 def generate_key(password: str):
-    salt = b'phineas_and_ferb_is_the_best_cartoon' 
+    salt = b'ds_eval_salt' 
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,
