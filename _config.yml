@@ -10,4 +10,6 @@ include:
   - old_website/excerpts.md
   - old_website/MagicalBlog.md
   - old_website/MagicalBlog_hidden.md
-  - old_website/iiith/rrc/writeup_3126.md
+  - old_website/iiith/rrc/writeup_3126.mdmarkdown: kramdown
+kramdown:
+  math_engine: mathjax

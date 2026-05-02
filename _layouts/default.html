@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title | default: "Site" }}</title>
+    
+    <!-- Link to the minimalist style -->
+    <link rel="stylesheet" href="/minimalist/style.css">
+    
+    <!-- MathJax for LaTeX -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        /* Extra styles to ensure markdown renders nicely with the minimalist theme */
+        .content {
+            line-height: 1.6;
+        }
+        .content img, .content gif {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            display: block;
+        }
+        .content pre {
+            background-color: #1a1a1a;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #333;
+        }
+        .content code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1a1a1a;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: #ddd;
+        }
+        .content pre code {
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            color: #ccc;
+        }
+        .content blockquote {
+            border-left: 4px solid #555;
+            margin: 1.5rem 0;
+            padding-left: 1rem;
+            color: #aaa;
+            font-style: italic;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        .content th, .content td {
+            border: 1px solid #444;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .content th {
+            background-color: #1a1a1a;
+        }
+        h1, h2, h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <main class="content">
+            {{ content }}
+            
+            <div class="optional-links" style="margin-top: 3rem;">
+                <a href="/">Home</a>
+            </div> 
+        </main>
+    </div>
+</body>
+</html>
