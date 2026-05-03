@@ -1669,7 +1669,182 @@ This runs in polynomial time
 
 I am not sure if we have to solve this using Quantum techniques, doesn't look like it based on how the options are formed.
 
-#### Topic 9: Byzantine Algorithm and Block Chain
+# Topic 9: Byzantine Algorithm and Block Chain
 
 This is not part of Quantum tho.
 
+#### Problem 29
+
+Let there be three parties A, B and C. We will assume at most one of the them is Byzatine (which means it may pass wrong information ahead).
+
+A correct Byzantine agreement protocol must satisfy:
+
+1. Agreement: All honest parties decide the same value.
+2. Validity: If all honest parties start with the same value v, they must decide v.
+
+I would do this with Proof by Contradiction
+
+I will assume that a protocol exists.
+
+And now will consider two executions:
+
+1. Execution 1 (E1)
+
+A = honest, input = 0
+
+B = honest, input = 0
+
+C = faulty
+
+By validity, A and B must both decide the value to be 0.
+
+Execution 2 (E2)
+A = honest, input = 1
+B = honest, input = 1
+C = faulty
+
+By validity, A and B must both decide: 1
+
+So far so good
+
+Now consider a scenario where
+
+A = honest, input = 0
+B = honest, input = 1
+C = faulty
+
+Now C can simulate different behavious towards A and B
+
+To A, C behaves exactly like it did in E1
+
+To B, C behaves exactly like it did in E2
+
+So,
+
+From A’s perspective, the system looks like E1 → A must decide 0
+
+From B’s perspective, the system looks like E2 → B must decide 1
+
+This is a contradiction
+
+Now we have:
+
+A decides 0
+B decides 1
+
+But both A and B are honest in this execution.
+
+This violates Agreement.
+
+#### Problem 30
+
+Authenticated Byzantine Agreement
+
+We assume:
+
+1. Messages are signed and can't be forged.
+2. Signutures are verifiable and transferable.
+
+This removes the ability of a faulty node to lie about what others said.
+
+Now let there be n parties and at most f Byzantine with n > f.
+
+We have a round structure (with f + 1 rounds)
+
+In the first round, the sender (which is the leader) signs its value v and sends
+
+(v, sig_leader) to all
+
+For a general round i,
+
+Upon receiving a message with:
+1. Value v,
+2. A chain of i - 1 distinct signatures.
+
+If your signature is not already on it, append your signature and forward to all.
+
+After the round f + 1, a decision is made.
+
+Each party looks at all valid messages.
+
+A message is valid if the signature chain is correct with distinct signers.
+
+Here now we will decide on the unique value with a valid sig chain of length f+1
+
+If none of the values are unique, we will decide a default value.
+
+About the Broadcast conversion, it is pretty straightforward to understand (or at least looks to me since I am also TAing DS)
+
+#### Problem 31
+
+
+
+
+#### Problem 32
+
+Let me read this question carefull. I know very little about Bitcoins and would try to figure this out.
+
+So it says in some standard Bitcoin protocol, miners are expected to broadcast newly dicovered blocks immediately. Okay.
+
+Now we have something called the selfish mining attack, where the selfish miners without this information, do not broadcast.
+
+Hash power = how fast you can try to solve the puzzle
+
+Attacker hash power = alpha
+
+Honest has power = 1 - alpha
+
+And attacker loses ties.
+
+Honest mining revenue: α (fair share)
+
+Selfish mining revenue: must be > α to be worth it
+
+Selfish mining works by:
+
+Building a private chain of blocks (in blockchain) and then releasing it strategically to invalidate honest blocks
+
+The profit comes from wasting honest miners’ work.
+
+Threshold finding:
+
+We will model the system as a Markov Chain.
+
+Each state in the Markov Chain represents the lead of the selfish mining pool over the honest public chain. Ki wo kitne zayda blocks hasil kar paye honest logon se.
+
+Let k be the number of blocks the selfish pool as found that are not yet revealed to the public.
+
+State 0: Both the pool and the honest network have the same chain length.
+
+State 1: The pool has found 1 block and kept it private.
+
+pool = selfish pool here
+
+State $0'$: The pool had a lead of 1, but the honest network found a block, resulting in a race between two competing chains of length 1.
+
+State $k$ ($k \ge 2$): The pool has a private lead of $k$ blocks.
+
+The transition probabilities are based on the pool's hash power $$\alpha$$ and the honest hash power $$1-\alpha$$:
+
+
+From 0: Pool finds block with prob $$\alpha \rightarrow$$ State 1; Honest finds block with prob $$1-\alpha \rightarrow$$ State 0 (reward to honest).
+
+From 1: Pool finds block with prob $$\alpha \rightarrow$$ State 2; Honest finds block with prob $$1-\alpha \rightarrow$$ State $$0'$$
+
+From $$0'$$: Pool finds block with prob $$\alpha \rightarrow$$ State 0 (pool reveals lead, gets 2); Honest finds block with prob $$1-\alpha \rightarrow$$ State 0. Since $$\gamma=0$$, honest miners build on the honest block, so they get 2 rewards.
+
+From $$k \ge 2$$: Pool finds block with prob $$\alpha \rightarrow$$ State $$k+1$$; Honest finds block with prob $$1-\alpha \rightarrow$$ State $$k-1$$ (pool reveals one block to maintain lead, gets 1).
+
+Solving the balance equations for the steady-state probabilities $$p_k$$
+
+:$$p_1 = \alpha p_0$$
+
+$$p_{0'} = (1-\alpha)p_1 = \alpha(1-\alpha)p_0$$
+
+$$p_k = \frac{\alpha^k}{(1-\alpha)^{k-1}} p_0$$ for $$k \ge 1$$
+
+Summing all probabilities to 1 ($$p_0 + p_{0'} + \sum_{k=1}^\infty p_k = 1$$) gives:
+
+$$ p_0 = \frac{1-2\alpha}{1 - 4\alpha^2 + 2\alpha^3} $$
+
+(TBC)
