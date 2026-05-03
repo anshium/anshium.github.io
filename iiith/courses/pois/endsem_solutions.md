@@ -90,7 +90,7 @@ I looked up and the guy looked like this:
 When young:
 <img src = "images/pauli_young.png" width = 100>
 
-But then he lost some of his hair:
+But then he got older:
 <img src = "images/pauli_old.png" width = 100>
 
 Now, I wouldn't really go to the solution directly but will first try to understand the question myself one by one.
