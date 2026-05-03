@@ -646,7 +646,7 @@ She can send in two basis:
 
 Now Riya wants to keep it secret about whatever she wants to say to Shashank. She can obviously go to him and wisper in his ear, but no, she wants to complicate things and make us understand BB84. (how bad jokes are these 🤦‍♂️)
 
-Now she says something in two ways - either she can say it normally (Basis 1) or in a sarcastic tone (Basis 2) and now Shashank (who is a clear example that boys struggle in relationships) has to guess whether she said it normally or sarcastically. Shashank is clueless and he randomly chooses one Basis.
+Now she says something in two ways - either she can say it normally (Basis 1) or in a sarcastic tone (Basis 2) and now Shashank has to guess whether she said it normally or sarcastically. Shashank is clueless and he randomly chooses one Basis.
 
 Now if he chooses the same Basis, he would get the same result.
 
