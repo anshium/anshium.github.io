@@ -17,6 +17,8 @@ But these problems were the first time I found QM to get me hooked to how cool a
 - [Topic 5: Quantum Teleportation](#topic-5-quantum-teleportation)
 - [Topic 6: The No-Cloning Theorem](#topic-6-the-no-cloning-theorem)
 - [Topic 7: The EPR Paradox](#topic-7-the-epr-paradox)
+- [Topic 8: Shor's Algorithm](#topic-8-shors-algorithm-relatively-easier-to-understand)
+- [Topic 9: Byzantine Algorithm and Block Chain](#topic-9-byzantine-algorithm-and-block-chain)
 
 I would start with the first section:
 
@@ -1427,6 +1429,247 @@ Let's do problem 22 now:
 
 (write explanation here)
 
+مان ٿوري دير ۾ ڪندس 😔
+
 # Topic 8: Shor's Algorithm (Relatively easier to understand)
 
-مان ٿوري دير ۾ ڪندس 😔
+#### Problem 25
+
+The easiest method is brute force and since the question only focuses on numbers below 6, it is pretty doable using this method.
+
+$$ 5^1 = 5 \equiv 5 \pmod{21} $$  
+
+$$ 5^2 = 25 \equiv 4 \pmod{21} $$
+
+$$ 5^3 = 5 \cdot 4 = 20 \equiv -1 \pmod{21} $$
+
+$$ 5^4 = 5 \cdot (-1) = -5 \equiv 16 \pmod{21} $$
+
+$$ 5^5 = 5 \cdot 16 = 80 \equiv 17 \pmod{21} $$
+
+$$ 5^6 = 5 \cdot 17 = 85 \equiv 1 \pmod{21} $$
+
+So,
+
+$$ 5^6 \equiv 1 \pmod{21} $$
+
+Now check that no smaller power gives 1:
+
+$$ 5^1 \not\equiv 1 \pmod{21} $$
+
+$$ 5^2 \not\equiv 1 \pmod{21} $$
+
+$$ 5^3 \not\equiv 1 \pmod{21} $$
+
+$$ 5^4 \not\equiv 1 \pmod{21} $$
+
+$$ 5^5 \not\equiv 1 \pmod{21} $$
+
+None of these equal 1 modulo 21.
+
+Conclusion:
+The order of 5 modulo 21 is r=6.
+
+#### Problem 26
+
+This is also super easy. We are doing a finite case check. This method is mathematicall rigourous.
+
+We need to show that 15 is the smallest composite number, that is not even and that is not a perfect power.
+
+Listing all the small composite numbers,
+
+4, 6, 8, 9, 10, 12, 14, 15
+
+Then we eliminate numbers that do not quality.
+
+Removing all even numbers,
+
+Remaining numbers are: 9, 15
+
+Removing perfect powers:
+
+Removed 9 (=3^2)
+
+So, 15 is the only number remaining.
+
+15 is composite, odd and not a perfect power.
+
+The quantum order-finding subroutines are required for numbers which are not even, not perfect powers and not primes.
+
+This is because for other numbers, we can reduce then into simpler numbers.
+
+#### Problem 27
+
+Here we have a special U operation.
+
+$$U \vert y \rangle = \vert xy mod N \rangle$$
+
+So U takes y and sends it to do xy mod N
+
+This is just a function
+
+f(y) = xy mod N
+
+But why is it called a unitary operator.
+
+Well a linear operator is unitary if two things are there:
+
+1. it maps basis states to basis states. Basis states are building blocks of a quantum state (like $$\vert 0 \rangle$$, $$\vert 1 \rangle$$, ... like that - discussed above in detail)
+
+For 2 qubits, the basis states are: 
+
+$$\vert 00 \rangle$$, $$\vert 01 \rangle$$, $$\vert 10 \rangle$$, $$\vert 11 \rangle$$
+
+2. A Unitary operation is one-to-one and onto (a permutation)
+
+So, we need to show that the map y -> xy mod N (what our function is computing) is a bijection (one-to-one and onto)
+
+First we will use the given fact,
+
+$$ \gcd(x, N) = 1 $$
+
+Wich means x has a multiplicate inverse modulo N.
+
+$$ x \cdot x^{-1} \equiv 1 \pmod{N} $$    
+
+#### Showing Injectivity
+
+A function is injective if f(y1) = f(y2) then y1 = y2
+
+$$ f(y) = xy \pmod{N} $$
+
+So let's say for y1, and y2,
+
+$$ xy_1 \equiv xy_2 \pmod{N} $$
+
+and we to prove 
+
+$$ y_1 \equiv y_2 \pmod{N} $$
+
+This means that no two inputs give the same output.
+
+And since we have the domain and range both to be the same finite set {0 to N - 1}
+
+So it would be onto also and hence bijective.
+
+Now, when it it outside the bound, the function give is the identity function and that is trivially bijective.
+
+This implies the U is unitary.
+
+#### Problem 28
+
+This is the Shor's algorithm question and I would go through each subpart slowly.
+
+(a) Confirm that N = 91 is not even and not a perfect power.
+
+Step 1 and Step 2 of Shor reduction is just finding if the numbers are even or not and if they are a power of some number.
+
+$$ 91 \pmod{2} = 1 \implies \text{not even} $$
+
+For finding if 91 is a power of something or not, we do:
+
+Factor 91:
+
+$$ 91 = 7 \cdot 13 $$
+
+For a perfect power a^b with b≥2:
+
+all prime exponents must be multiples of b
+
+But here:
+
+$$ 91 = 7^1 \cdot 13^1 $$
+
+The exponents are 1, not multiples of any b≥2.
+
+So impossible.
+
+(b) Now the question makes us suppose that we chose x= 4, which is coprime to 91.
+
+Now we have to compute the order r of x = 4 with respect to N = 91
+
+We want the smallest r such that:
+
+$$ 4^r \equiv 1 \pmod{91} $$
+
+Compute step by step:
+
+$$ 4^2 = 16 $$
+
+$$ 4^3 = 64 $$
+
+$$ 4^4 = 256 \equiv 256 - 182 = 74 \pmod{91} $$
+
+$$ 4^5 = 4 \cdot 74 = 296 \equiv 23 \pmod{91} $$
+
+$$ 4^6 = 4 \cdot 23 = 92 \equiv 1 \pmod{91} $$
+
+So:
+
+r=6
+	​
+
+
+(c) 
+
+We compute:
+
+$$ 4^{r/2} = 4^3 = 64 $$
+
+Now reduce mod 91:
+
+$$ 64 \equiv -27 \pmod{91} $$
+
+So:
+
+$$ 64 \not\equiv -1 \pmod{91} $$
+
+Thus:
+
+$$ 4^{r/2} \not\equiv -1 \pmod{91} $$
+	​
+
+
+This means the algorithm succeeds.
+
+First:
+$$ \gcd(4^3 - 1, 91) = \gcd(64 - 1, 91) = \gcd(63, 91) $$
+
+$$ 63 = 7 \cdot 9 $$
+
+$$ 91 = 7 \cdot 13 $$
+
+So:
+$$ \gcd(63, 91) = 7 $$
+
+Second:
+$$ \gcd(4^3 + 1, 91) = \gcd(65, 91) $$
+
+$$ 65 = 5 \cdot 13 $$
+
+$$ 91 = 7 \cdot 13 $$
+
+So:
+$$ \gcd(65, 91) = 13 $$
+
+Final factors:
+$$ 91 = 7 \cdot 13 $$
+	​
+(5) Why quantum helps
+
+The hard step is finding r such that:
+
+$$ x^r \equiv 1 \pmod{N} $$
+Classically:
+You may need to try many powers
+This takes exponential time in general
+Quantumly (Shor’s algorithm):
+Order-finding is done using quantum Fourier transform
+This runs in polynomial time
+
+I am not sure if we have to solve this using Quantum techniques, doesn't look like it based on how the options are formed.
+
+#### Topic 9: Byzantine Algorithm and Block Chain
+
+This is not part of Quantum tho.
+
