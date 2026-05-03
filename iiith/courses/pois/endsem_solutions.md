@@ -998,28 +998,108 @@ Entanglement (and EPF paradox) can be very easily understood through this video 
 
 Without going into much physical significance, let's solve Q15.
 
-A Bell State looks like
+Start with:
+$$ \frac{\vert 00\rangle+\vert 11\rangle}{\sqrt{2}} $$
 
-$\frac{\vert 00\rangle+\vert 11\rangle}{\sqrt{2}}$
+Apply H on first qubit:
 
-(this is entangled and not directly readable)
+$$ \vert 00\rangle \to \frac{\vert 00\rangle + \vert 10\rangle}{\sqrt{2}} $$  
+$$ \vert 11\rangle \to \frac{\vert 01\rangle - \vert 11\rangle}{\sqrt{2}} $$
 
-What we really want is to figure out which Bell state we have (out of the four) and our measurement only understands $\vert 00\rangle$, $\vert 01\rangle$, $\vert 10\rangle$, $\vert 11\rangle$.
+So we get:
 
-So we will do what the question tells us to do:
+$$
+\frac{1}{2}(
+\vert 00\rangle + \vert 10\rangle + \vert 01\rangle - \vert 11\rangle
+)
+$$
 
-$U = \text{CNOT} \cdot (H \otimes I)$
+Now apply CNOT:
 
-CNOT does:
+$$ \vert 00\rangle \to \vert 00\rangle $$  
+$$ \vert 01\rangle \to \vert 01\rangle $$  
+$$ \vert 10\rangle \to \vert 11\rangle $$  
+$$ \vert 11\rangle \to \vert 10\rangle $$  
 
-$\vert 00\rangle \to \vert 00\rangle$
-$\vert 11\rangle \to \vert 10\rangle$
+So the state becomes:
 
-$$ \frac{\vert 00\rangle+\vert 11\rangle}{\sqrt{2}} \xrightarrow{\text{CNOT}} \frac{\vert 00\rangle+\vert 10\rangle}{\sqrt{2}} $$
+$$
+\frac{1}{2}(
+\vert 00\rangle + \vert 01\rangle + \vert 11\rangle - \vert 10\rangle
+)
+$$
 
-Apply H to first Qubit and we are done.
+This simplifies to:
 
-$$ \frac{\vert 0\rangle+\vert 1\rangle}{\sqrt{2}} \otimes \vert 0\rangle = \vert +\rangle \otimes \vert 0\rangle \xrightarrow{H \otimes I} \vert 0\rangle \otimes \vert 0\rangle = \vert 00\rangle $$
+$$ \vert 00\rangle $$
+
+So:
+
+$$ \vert \beta_{00}\rangle \xrightarrow{U^\dagger} \vert 00\rangle $$
+
+(and similarly for the other Bell states)
+
+So, the circuit given in the question decodes Bell states into classical bit strings.
+
+Measurement gives one of 00,01,10,11
+Each outcome corresponds to exactly one Bell state
+
+Now what does POVM mean?
+
+Behind the scenes, we describe measurement using operators. (remember operations which can my multiplied to things)
+
+For a normal measurement:
+
+$$ M_0 = \vert 0\rangle\langle 0\vert $$
+
+$$ M_1 = \vert 1\rangle\langle 1\vert $$
+
+Now generalize this idea
+
+Instead of just two operators, we can have many:
+
+$$ \{M_0, M_1, M_2, \dots\} $$
+
+This whole set is called a POVM
+
+Now the question asks us to show that the circuit results in a POVM (a set of elements) whose elements are the four projectors (remember projectors?)
+
+From the circuit:
+
+You apply U
+Then measure $\vert 00\rangle, \vert 01\rangle, \vert 10\rangle, \vert 11\rangle$
+
+This is equivalent to measuring:
+
+$$ M_{ij} = U^\dagger\vert ij\rangle\langle ij\vert U $$
+
+And this becomes:
+
+$$ M_{ij} = \vert \beta_{ij}\rangle\langle \beta_{ij}\vert $$
+
+
+What is the cardinality of the POVM?
+
+Cardinality = number of measurement outcomes.
+
+Here:
+
+$$ ij \in \{00, 01, 10, 11\} $$
+
+So:
+
+Cardinality = 4
+
+Finally,
+
+There are 4 Bell states
+
+Each has a measurement operator:
+
+$$ M_{00}, M_{01}, M_{10}, M_{11} $$
+
+Each operator checks one Bell state
+Total operators = 4
 
 #### Problem 16
 
@@ -1048,6 +1128,8 @@ Now I have to show something about the reduced density operator.
 What is that now? 😭
 
 Reduced density operator = “what A looks like if I don’t see B”
+
+(to be completed)
 
 #### Problem 17
 
