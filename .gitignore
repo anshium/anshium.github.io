@@ -3,3 +3,11 @@ excerpts.md
 MagicalBlog_hidden.md
 
 projects/3d-recon/code
+
+_*
+.*
+
+vendor
+
+Gemfile
+Gemfile.lock
