@@ -427,7 +427,7 @@ Tbh, there was nothing "medium" about it!! This was easy if you look at it, just
 
 #### Problem 11
 
-Onto Problem 11 (my birthday is also on 11th!!! of another month 😲)
+Onto Problem 11
 
 Now achanak se these people have started to say words like Projector
 
