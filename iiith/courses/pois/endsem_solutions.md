@@ -2,7 +2,10 @@
 layout: default
 title: Endsem Solutions - POIS
 ---
-# POIS Endsem Solutions
+
+<a href="https://anshium.github.io/">Home</a>
+
+# POIS Endsem Explanations
 
 
 Quantum Mechanics does freak me out at times. I do admit messing up the QM part in Science-1 and it took me way long to get these things through science courses.
@@ -606,7 +609,7 @@ Ho gaye basics!!
 
 ## Topic 4: BB84 Quantum Key Distribution
 
-Now whenever I read BB84, I mistake it for the cool BB8 robot. I once tried to make a life-sized version of this cute robot in RRC (along with a life-sized version of Wall-E) but didn't have time and got busy with something(/someone) else.
+Now whenever I read BB84, I mistake it for the cool BB8 robot. I once tried to make a life-sized version of this cute robot in RRC (along with a life-sized version of Wall-E) but didn't have time and got busy with something else.
 
 Lite, will make these in my 5th year.
 
