@@ -1579,6 +1579,8 @@ This is the Shor's algorithm question and I would go through each subpart slowly
 
 (a) Confirm that N = 91 is not even and not a perfect power.
 
+(Disclaimer!! This method of finding perfect power may be wrong in this particular Shor's Algo case. Use with caution.)
+
 Step 1 and Step 2 of Shor reduction is just finding if the numbers are even or not and if they are a power of some number.
 
 $$ 91 \pmod{2} = 1 \implies \text{not even} $$
