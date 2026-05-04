@@ -1002,42 +1002,59 @@ Without going into much physical significance, let's solve Q15.
 
 Start with:
 $$ \frac{\vert 00\rangle+\vert 11\rangle}{\sqrt{2}} $$
+Apply CNOT first:
 
-Apply H on first qubit:
-
-$$ \vert 00\rangle \to \frac{\vert 00\rangle + \vert 10\rangle}{\sqrt{2}} $$  
-$$ \vert 11\rangle \to \frac{\vert 01\rangle - \vert 11\rangle}{\sqrt{2}} $$
+$$
+\vert 00\rangle \to \vert 00\rangle
+$$
+$$
+\vert 11\rangle \to \vert 10\rangle
+$$
 
 So we get:
 
 $$
-\frac{1}{2}(
-\vert 00\rangle + \vert 10\rangle + \vert 01\rangle - \vert 11\rangle
-)
+\frac{1}{\sqrt{2}} \left( \vert 00\rangle + \vert 10\rangle \right)
 $$
 
-Now apply CNOT:
+Now apply \(H\) on the first qubit:
 
-$$ \vert 00\rangle \to \vert 00\rangle $$  
-$$ \vert 01\rangle \to \vert 01\rangle $$  
-$$ \vert 10\rangle \to \vert 11\rangle $$  
-$$ \vert 11\rangle \to \vert 10\rangle $$  
+$$
+\vert 00\rangle \to \frac{\vert 00\rangle + \vert 10\rangle}{\sqrt{2}}
+$$
+$$
+\vert 10\rangle \to \frac{\vert 00\rangle - \vert 10\rangle}{\sqrt{2}}
+$$
 
 So the state becomes:
 
 $$
-\frac{1}{2}(
-\vert 00\rangle + \vert 01\rangle + \vert 11\rangle - \vert 10\rangle
-)
+\frac{1}{\sqrt{2}} \left(
+\frac{\vert 00\rangle + \vert 10\rangle}{\sqrt{2}} +
+\frac{\vert 00\rangle - \vert 10\rangle}{\sqrt{2}}
+\right)
 $$
 
-This simplifies to:
+Factor:
 
-$$ \vert 00\rangle $$
+$$
+= \frac{1}{2} \left(
+(\vert 00\rangle + \vert 10\rangle) +
+(\vert 00\rangle - \vert 10\rangle)
+\right)
+$$
+
+Combine terms:
+
+$$
+= \frac{1}{2} (2\vert 00\rangle) = \vert 00\rangle
+$$
 
 So:
 
-$$ \vert \beta_{00}\rangle \xrightarrow{U^\dagger} \vert 00\rangle $$
+$$
+\vert \beta_{00}\rangle \xrightarrow{U^\dagger} \vert 00\rangle
+$$
 
 (and similarly for the other Bell states)
 
