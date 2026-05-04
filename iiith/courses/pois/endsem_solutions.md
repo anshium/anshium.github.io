@@ -1777,8 +1777,42 @@ About the Broadcast conversion, it is pretty straightforward to understand (or a
 
 #### Problem 31
 
+(a) Probability and Expected Evaluations
 
+We have a 256-bit hash space, so there are total 2^256 hash outputs possible.
 
+Every output is equally likely.
+
+Now the probability that a single has evaluation is valid (i.e. less than the target T) is the ratio of target range to the total range (easy!).
+
+p = T / 2^256 = 2^200 / 2^256 = 2^ (200 - 256) = 2^ (-56)
+
+**Now for expected evaluations (E)**
+
+To revise, a Bernoulli process is a sequence of independent, identical random experiments (Bernoulli trials), each having only two possible outcomes: success (\(p\)) or failure (\(1-p\)).
+
+So this is a Bernoulli process since it has only two outcomes success and failure.
+
+The number of trials required to find a success in a Bernoulli process follows a geometric distribution.
+
+And by that knowledge we know that the expected number of trials is the reciprocal of the success probability:
+
+E = 1 / p = 1 / 2^(-56)  = 2^56
+
+So the network is expected to perform 2^56 has evaluations to find the next block.
+
+(b) Pre-image resistance is need because we need to ensure that it is computationally infeasible to find an input x such that H(x) = y.
+
+This is because the work relies entirely on the unpredictability of the hash function. If H was not pre-image resistant, an attacker could simply pick a value y that is less than the target T and work backward to calculate an x that produces the hash.
+
+This would allow the miner to find a valid block header (the summary of a block in blockchain) without any brute-force search which would destroy the security mechanism of the blockchain.
+
+(c) PoW does not strictly require collision resistance.
+
+In short an attacker who can find arbitrary collisions gains no meaningful advantage in mining because:
+
+1. The goal is to find a hash that is small (below T) and not a hash which is identical to another.
+2. If two inputs lead the attacker to the same hash, it doesn't help it and if the values are greater than T, then both values are equally useless.
 
 #### Problem 32
 
@@ -1810,7 +1844,7 @@ Threshold finding:
 
 We will model the system as a Markov Chain.
 
-Each state in the Markov Chain represents the lead of the selfish mining pool over the honest public chain. Ki wo kitne zayda blocks hasil kar paye honest logon se.
+Each state in the Markov Chain represents the lead of the selfish mining pool over the honest public chain. Ki wo kitne zayda blocks hasil kar paye honest logon ke comparison mein.
 
 Let k be the number of blocks the selfish pool as found that are not yet revealed to the public.
 
